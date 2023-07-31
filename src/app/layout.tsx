@@ -1,8 +1,9 @@
 import { Providers } from "@/redux/provider";
 import ThemeRegistry from "@/theme/ThemeRegistry";
-import { Box } from "@mui/material";
+import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
 import BackgroundImage from "../assets/images/background.jpg";
+import { InitializationWallet } from "./_components/InitializationWallet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <ThemeRegistry>
         <body className={inter.className}>
           <Providers>
+            {/* <InitializationWallet /> */}
             <Box
               sx={{
                 backgroundImage: `url('${BackgroundImage.src}')`,
-                backgroundColor: "rgba(0, 0, 0, 0.9)",
                 backgroundSize: "cover",
                 backgroundRepeat: " no-repeat",
                 backgroundPosition: "center",
@@ -31,6 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   width: "100%",
                   height: "100vh",
                   backgroundColor: "rgba(0,0,0,0.8)",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 {children}

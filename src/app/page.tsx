@@ -1,92 +1,77 @@
 "use client";
-
-import { Web3Thunks } from "@/redux/features/web3/web3Thunk";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Typography,
-} from "@mui/material";
-import { useEffect } from "react";
-
-import { useRouter } from "next/navigation";
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 
 export default function Home() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { wallet, contract } = useAppSelector((state) => state.web3);
-  console.log("contract: ", contract);
-  console.log("wallet: ", wallet);
-
-  useEffect(() => {
-    dispatch(Web3Thunks.initialize());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleClick = () => {
-    router.push("/register");
-  };
-
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          position="static"
+          sx={{
+            backgroundColor: "rgba(0,0,0,0.8)",
+          }}
+        >
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              SuperSchool
+            </Typography>
+            <Button href={"/login"} color="inherit">
+              Đăng nhập
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: 4,
+          width: "100%",
+          height: "100%",
         }}
       >
-        <Typography
-          variant="h1"
+        <Box
           sx={{
-            fontWeight: "bold",
-            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 4,
           }}
         >
-          Super School
-        </Typography>
+          <Typography
+            variant="h1"
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            Super School
+          </Typography>
 
-        <Typography
-          variant="h2"
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: "400",
+              textAlign: "center",
+            }}
+          >
+            Chào mừng bạn đến với ngôi trường của chúng tôi
+          </Typography>
+        </Box>
+
+        <Button
+          href="/register"
+          variant="outlined"
           sx={{
-            fontWeight: "400",
-            textAlign: "center",
+            mt: 4,
+            fontSize: 25,
           }}
         >
-          Chào mừng bạn đến với ngôi trường của chúng tôi
-        </Typography>
+          Đăng ký nhập học
+        </Button>
       </Box>
-
-      <Button
-        variant="outlined"
-        sx={{
-          mt: 4,
-          fontSize: 25,
-        }}
-        onClick={handleClick}
-      >
-        Đăng ký nhập học
-      </Button>
-    </Box>
+    </>
   );
 }

@@ -14,7 +14,7 @@ const roboto = Roboto({
 
 const themeOptions: ThemeOptions = {
   typography: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: roboto.style.fontFamily,
   },
   palette: {
