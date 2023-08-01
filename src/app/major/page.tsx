@@ -36,7 +36,7 @@ export default function Major() {
   }, [dispatch]);
 
   const majors = useAppSelector(MajorSelectos.getMajors());
-  console.log("majors: ", majors);
+
   return (
     <TableContainer component={Paper}>
       {<MajorForm open={visibleForm} onClose={hideForm} />}

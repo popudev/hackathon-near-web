@@ -1,30 +1,36 @@
+import { MajorActions } from "@/redux/features/major/majorSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import majorService, { MajorService } from "@/services/major";
 import { Box, Button, Grid, Modal, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useCallback, useState } from "react";
-import Dropzone, { useDropzone } from "react-dropzone";
-import { URL } from "url";
+
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
-      code: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      workUnitId: "",
-      jobPositionName: "",
-      roleIds: [],
-      username: "",
-      password: "",
-      passwordRetype: "",
+      thumbail: "",
+      name: "",
+      description: "",
+      number_of_credits_required: 152,
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      (async () => {
+        const major = await majorService.create({
+          thumbnail: values.thumbail,
+          name: values.name,
+          description: values.description,
+          number_of_credits_required: values.number_of_credits_required,
+        });
+        dispatch(MajorActions.addMajor(major));
+      })();
+    },
   });
   return (
     <Modal
@@ -74,22 +80,10 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Tên ngành"
-                name="firstName"
+                name="name"
                 onChange={formik.handleChange}
                 required
-                value={formik.values.firstName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Ảnh mô tả"
-                name="firstName"
-                onChange={formik.handleChange}
-                required
-                type="password"
-                value={formik.values.firstName}
+                value={formik.values.name}
                 variant="outlined"
               />
             </Grid>
@@ -97,11 +91,11 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Mô Tả"
-                name="firstName"
+                name="description"
                 onChange={formik.handleChange}
                 required
-                type="password"
-                value={formik.values.firstName}
+                type="text"
+                value={formik.values.description}
                 variant="outlined"
               />
             </Grid>
@@ -109,37 +103,27 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Tổng số tín chỉ"
-                name="firstName"
+                name="number_of_credits_required"
                 onChange={formik.handleChange}
                 required
-                type="password"
-                value={formik.values.firstName}
+                type="number"
+                value={formik.values.number_of_credits_required}
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Tổng số học sinh"
-                name="firstName"
-                onChange={formik.handleChange}
-                required
-                type="password"
-                value={formik.values.firstName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid container spacing={2} alignItems="center" justifyContent="center">
-              <p>Kéo và thả tệp ảnh vào đây</p>
-            </Grid>
-            <Grid item xs={12}>
-              {selectedImage && (
-                <Image
-                  src={selectedImage}
-                  alt="Preview"
-                  style={{ maxWidth: "100%", maxHeight: "200px" }}
-                />
-              )}
+              <Grid container spacing={2} alignItems="center" justifyContent="center">
+                <p>Kéo và thả tệp ảnh mô tả vào đây</p>
+              </Grid>
+              <Grid item xs={12}>
+                {selectedImage && (
+                  <Image
+                    src={selectedImage}
+                    alt="Preview"
+                    style={{ maxWidth: "100%", maxHeight: "200px" }}
+                  />
+                )}
+              </Grid>
             </Grid>
           </Grid>
           <Box
@@ -153,6 +137,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
                 marginRight: 4,
                 fontSize: 18,
               }}
+              onClick={formik.submitForm}
             >
               Xác nhận
             </Button>

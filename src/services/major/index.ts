@@ -6,7 +6,7 @@ export class MajorService {
     return instance.get<Major[], Major[]>("/major");
   }
   async create(createMajor: CreateMajor) {
-    return instance.post("/major", createMajor);
+    return instance.post<CreateMajor, Major>("/major", createMajor);
   }
 }
 const majorService = new MajorService();
