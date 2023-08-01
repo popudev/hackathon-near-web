@@ -10,18 +10,25 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Web3Thunks } from "@/redux/features/web3/web3Thunk";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import axios from "@/axiosConfig";
+import { UserPayload } from "types/responses";
 
 export default function Login() {
   const [value, setValue] = useState("1");
+
   const { wallet, isSignedIn } = useAppSelector((state) => state.web3);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("isSignedIn: ", isSignedIn);
-    if (isSignedIn) router.push("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignedIn]);
-
+  const mutationLogin = useMutation({
+    mutationFn: (data: Object) => {
+      return axios<UserPayload>({
+        url: "/user/login",
+        method: "POST",
+        data,
+      });
+    },
+  });
   const formik = useFormik({
     initialValues: {
       code: "",
@@ -39,12 +46,38 @@ export default function Login() {
     onSubmit: (values) => {},
   });
 
+  useEffect(() => {
+    if (isSignedIn) router.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSignedIn]);
+
+  useEffect(() => {
+    if (mutationLogin.error) {
+      console.log(mutationLogin.error);
+    }
+  }, [mutationLogin.error]);
+
+  useEffect(() => {
+    if (mutationLogin.data) {
+      console.log(mutationLogin.data.data.accessToken);
+      alert("login success");
+    }
+  }, [mutationLogin.data]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
   const handleLoginWallet = () => {
     wallet?.signIn();
+  };
+
+  const handleLogin = (e: React.MouseEvent) => {
+    const { username, password } = formik.values;
+    mutationLogin.mutate({
+      username,
+      password,
+    });
   };
 
   return (
@@ -101,10 +134,10 @@ export default function Login() {
                   <TextField
                     fullWidth
                     label="Tài khoản"
-                    name="firstName"
+                    name="username"
                     onChange={formik.handleChange}
                     required
-                    value={formik.values.firstName}
+                    value={formik.values.username}
                     variant="outlined"
                   />
                 </Grid>
@@ -112,11 +145,11 @@ export default function Login() {
                   <TextField
                     fullWidth
                     label="Mật khẩu"
-                    name="firstName"
+                    name="password"
                     onChange={formik.handleChange}
                     required
                     type="password"
-                    value={formik.values.firstName}
+                    value={formik.values.password}
                     variant="outlined"
                   />
                 </Grid>
@@ -132,6 +165,7 @@ export default function Login() {
                     marginRight: 4,
                     fontSize: 18,
                   }}
+                  onClick={handleLogin}
                 >
                   Đăng nhập
                 </Button>
