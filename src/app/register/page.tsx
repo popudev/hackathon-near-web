@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 
-export default function Register() {
+export default function Major() {
   const majors = useAppSelector((state) => state.major.majors);
 
   return (
