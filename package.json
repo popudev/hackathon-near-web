@@ -25,6 +25,9 @@
     "@near-wallet-selector/sender": "^7.0.0",
     "@near-wallet-selector/wallet-connect": "^7.0.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.32.1",
+    "@tanstack/react-query-next-experimental": "^5.0.0-alpha.80",
+    "axios": "^1.4.0",
     "formik": "^2.4.2",
     "near-api-js": "^0.44.2",
     "next": "13.4.12",
@@ -37,6 +40,7 @@
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "dotenv": "^16.3.1",
+    "encoding": "^0.1.13",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "typescript": "5.1.6"
