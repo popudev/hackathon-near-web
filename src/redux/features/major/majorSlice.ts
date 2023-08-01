@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Major } from "@/services/major/types";
+import { MajorThunks } from "./majorThunk";
 
-type MajorState = {
+export type MajorState = {
   majors: Major[];
 };
 
@@ -43,7 +44,16 @@ const initialState: MajorState = {
 export const major = createSlice({
   name: "Major",
   initialState,
-  reducers: {},
+  reducers: {
+    addMajor(state, action: PayloadAction<Major>) {
+      state.majors.push(action.payload);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(MajorThunks.getMajors.fulfilled, (state, action) => {
+      state.majors = action.payload;
+    });
+  },
 });
 
 export const MajorActions = major.actions;
