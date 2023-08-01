@@ -2,8 +2,7 @@ import axios from "axios";
 
 console.log(`base url: ${process.env.NEXT_PUBLIC_BASEURL_SERVER}`);
 const instance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BASEURL_SERVER}`,
-  withCredentials: true,
+  baseURL: `${process.env.NEXT_PUBLIC_BASEURL_SERVER}`
 });
 
 // instance.interceptors.request.use((config) => {
