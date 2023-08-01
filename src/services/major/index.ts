@@ -1,12 +1,12 @@
-import httpRequest from "../../../utils/httpRequest";
+import instance from "@/axiosConfig";
 import { CreateMajor, Major } from "./types";
 
 export class MajorService {
   async getAll() {
-    return httpRequest.get<Major[], Major[]>("/major");
+    return instance.get<Major[], Major[]>("/major");
   }
   async create(createMajor: CreateMajor) {
-    return httpRequest.post("/major", createMajor);
+    return instance.post("/major", createMajor);
   }
 }
 const majorService = new MajorService();
