@@ -15,6 +15,7 @@ import { MajorSelectos } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectSelectos } from "@/redux/features/subject/subjectSelectors";
 import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
+import { SubjectForm } from "../_components/subjectForm";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
@@ -31,7 +32,7 @@ export default function Subject() {
 
   return (
     <TableContainer component={Paper}>
-      {<MajorForm open={visibleForm} onClose={hideForm} />}
+      {<SubjectForm open={visibleForm} onClose={hideForm} />}
       <Button onClick={showForm}>Thêm môn học</Button>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

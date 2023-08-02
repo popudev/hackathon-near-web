@@ -1,6 +1,8 @@
 import { MajorActions } from "@/redux/features/major/majorSlice";
+import { SubjectActions } from "@/redux/features/subject/subjectSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import majorService, { MajorService } from "@/services/major";
+import subjectService from "@/services/subject";
 import { Box, Button, Grid, Modal, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
@@ -10,25 +12,29 @@ interface Props {
   open: boolean;
   onClose: () => void;
 }
-export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
+export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
-      thumbail: "",
-      name: "",
+      thumbnail: "",
+      title: "",
       description: "",
-      number_of_credits_required: 152,
+      number_of_credits: 0,
+      prerequisite_subject_id: undefined,
+      price: 0,
     },
     onSubmit: (values) => {
       (async () => {
-        const major = await majorService.create({
-          thumbnail: values.thumbail,
-          name: values.name,
+        const subject = await subjectService.create({
+          thumbnail: values.thumbnail,
+          title: values.title,
           description: values.description,
-          number_of_credits_required: values.number_of_credits_required,
+          number_of_credits: values.number_of_credits,
+          prerequisite_subject_id: values.prerequisite_subject_id,
+          price: values.price,
         });
-        dispatch(MajorActions.addMajor(major));
+        dispatch(SubjectActions.addSubject(subject));
       })();
     },
   });
@@ -64,7 +70,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
               mb: 4,
             }}
           >
-            Tạo ngành học
+            Tạo môn học
           </Typography>
         </Box>
         <Box
@@ -79,11 +85,11 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Tên ngành"
+                label="Tên môn học"
                 name="name"
                 onChange={formik.handleChange}
                 required
-                value={formik.values.name}
+                value={formik.values.title}
                 variant="outlined"
               />
             </Grid>
@@ -102,12 +108,36 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Tổng số tín chỉ"
+                label="Số tín chỉ"
                 name="number_of_credits_required"
                 onChange={formik.handleChange}
                 required
                 type="number"
-                value={formik.values.number_of_credits_required}
+                value={formik.values.number_of_credits}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Mã môn tiên quyết"
+                name="number_of_credits_required"
+                onChange={formik.handleChange}
+                required
+                type="number"
+                value={formik.values.prerequisite_subject_id}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Giá near"
+                name="number_of_credits_required"
+                onChange={formik.handleChange}
+                required
+                type="number"
+                value={formik.values.price}
                 variant="outlined"
               />
             </Grid>

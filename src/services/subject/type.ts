@@ -12,7 +12,6 @@ export type Subject = {
   updated_at: number;
 };
 export type CreateSubject = {
-  subject_id: String;
   thumbnail?: string;
   title: string;
   description: string;
