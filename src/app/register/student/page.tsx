@@ -17,7 +17,7 @@ import {
 import { useFormik } from "formik";
 import { useEffect } from "react";
 
-export default function Register() {
+export default function Major() {
   const majors = useAppSelector((state) => state.major.majors);
   console.log("majors: ", majors);
   const dispatch = useAppDispatch();

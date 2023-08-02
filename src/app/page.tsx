@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      {/* <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
           sx={{
@@ -23,7 +23,7 @@ export default function Home() {
             </Button>
           </Toolbar>
         </AppBar>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: "flex",

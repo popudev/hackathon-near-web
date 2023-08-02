@@ -1,6 +1,6 @@
 import instance from "@/axiosConfig";
-import { CreateUserDto } from "./types";
 import { UserPayload } from "types/responses";
+import { CreateUserDto, Instructor } from "./types";
 
 export class UserService {
   async registerStudent(createUser: CreateUserDto) {
@@ -18,6 +18,9 @@ export class UserService {
       method: "POST",
       data: { username, password },
     });
+  }
+  async getAllInstructor() {
+    return instance.get<any, Instructor[]>("/user/instructor");
   }
 }
 export const userService = new UserService();

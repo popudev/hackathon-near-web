@@ -3,7 +3,10 @@ import ThemeRegistry from "@/theme/ThemeRegistry";
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
 import BackgroundImage from "../assets/images/background.jpg";
+
 import { Initialization } from "./_components/Initialization";
+import { Header } from "./_components/common/Header";
+import { RoleType } from "@/services/major/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   flexDirection: "column",
                 }}
               >
+                <Header role={RoleType.ADMIN} />
                 {children}
               </Box>
             </Box>

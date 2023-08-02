@@ -9,20 +9,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { MajorForm } from "../_components/majorForm";
+import { MajorForm } from "../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { MajorSelectos } from "@/redux/features/major/majorSelectors";
+import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
 
 export default function Major() {
   const [visibleForm, setVisibleForm] = useState(false);
@@ -35,7 +25,7 @@ export default function Major() {
     dispatch(MajorThunks.getMajors());
   }, [dispatch]);
 
-  const majors = useAppSelector(MajorSelectos.getMajors());
+  const majors = useAppSelector(MajorSelectors.getMajors());
 
   return (
     <TableContainer component={Paper}>
