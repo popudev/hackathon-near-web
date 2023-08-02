@@ -58,7 +58,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: "500",
               textAlign: "center",
               mb: 4,

@@ -122,12 +122,12 @@ export default function Login() {
           </Typography>
         </Box>
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="login">
               <Tab label="Đăng nhập bằng tài khoản" value="1" />
               <Tab label="Đăng nhập bằng wallet" value="2" />
             </TabList>
-          </Box>
+          </Box> */}
           <TabPanel value="1">
             <Box
               sx={{
