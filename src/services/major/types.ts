@@ -1,6 +1,6 @@
 export type Major = {
   major_id: string;
-  thumbnail: string | null;
+  thumbnail?: string;
   name: string;
   description: string;
   number_of_credits_required: number;

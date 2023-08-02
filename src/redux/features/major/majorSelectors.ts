@@ -7,6 +7,6 @@ interface PartialMajorState {
 
 const majorStateSelector = (state: PartialMajorState) => state.major;
 
-export const MajorSelectos = {
+export const MajorSelectors = {
   getMajors: () => createSelector(majorStateSelector, (major) => major.majors),
 };
