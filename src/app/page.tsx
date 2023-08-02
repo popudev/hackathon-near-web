@@ -62,14 +62,26 @@ export default function Home() {
         </Box>
 
         <Button
-          href="/register"
+          href="/register/student"
           variant="outlined"
           sx={{
             mt: 4,
             fontSize: 25,
+            width: 300,
           }}
         >
           Đăng ký nhập học
+        </Button>
+        <Button
+          href="/register/instructor"
+          variant="outlined"
+          sx={{
+            mt: 1,
+            fontSize: 25,
+            width: 300,
+          }}
+        >
+          Đăng ký giảng dạy
         </Button>
       </Box>
     </>

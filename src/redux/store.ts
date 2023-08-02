@@ -3,6 +3,7 @@ import { web3 } from "./features/web3/web3Slice";
 import { major } from "./features/major/majorSlice";
 import { subject } from "./features/subject/subjectSlice";
 import { score } from "./features/score/scoreSlice";
+import { user } from "./features/user/userSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     major: major.reducer,
     subject: subject.reducer,
     score: score.reducer,
+    user: user.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

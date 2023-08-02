@@ -1,6 +1,6 @@
 export type Major = {
   major_id: string;
-  thumbnail: string | null;
+  thumbnail?: string;
   name: string;
   description: string;
   number_of_credits_required: number;
@@ -38,3 +38,9 @@ export enum RoleType {
   STUDENT = "STUDENT",
   INSTRUCTOR = "INSTRUCTOR",
 }
+export type CreateMajor = {
+  thumbnail: string;
+  name: string;
+  description: string;
+  number_of_credits_required: number;
+};

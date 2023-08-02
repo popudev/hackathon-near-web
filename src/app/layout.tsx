@@ -16,11 +16,11 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <ThemeRegistry>
-        <body className={inter.className}>
+        <body suppressHydrationWarning={true} className={inter.className}>
           <Providers>
-            {/* <InitializationWallet /> */}
+            <InitializationWallet />
             <Box
               sx={{
                 backgroundImage: `url('${BackgroundImage.src}')`,
