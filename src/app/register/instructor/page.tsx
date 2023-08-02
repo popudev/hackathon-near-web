@@ -1,42 +1,49 @@
 "use client";
-
 import { useAppSelector } from "@/redux/hooks";
+import { userService } from "@/services/user";
 import {
+  Backdrop,
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
+  CircularProgress,
   Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useState } from "react";
 
-export default function Register({ params }: { params: { id: string } }) {
-  const majors = useAppSelector((state) => state.major.majors);
-  const major = majors.find((m) => m.major_id === params.id);
+export default function Register() {
+  const { contract, isSignedIn, wallet } = useAppSelector((state) => state.web3);
+  const [open, setOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      code: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
+      full_name: "",
+      date_of_birth: "",
       email: "",
-      workUnitId: "",
-      jobPositionName: "",
-      roleIds: [],
-      username: "",
-      password: "",
-      passwordRetype: "",
+      phone: "",
+      national_identity_card: "",
+      national_identity_card_date: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: async (values) => {
+      if (!isSignedIn) return wallet?.signIn();
+
+      setOpen(true);
+
+      if (wallet && wallet.accountId && contract) {
+        await userService.registerInstructor({
+          user_id: wallet.accountId,
+          ...values,
+        });
+        await contract.registerInstructor();
+      }
+
+      setOpen(false);
+    },
   });
 
-  if (!major) return <></>;
   return (
     <Box
       sx={{
@@ -46,36 +53,14 @@ export default function Register({ params }: { params: { id: string } }) {
         flex: 1,
       }}
     >
+      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         sx={{
           display: "flex",
         }}
       >
-        <Card
-          sx={{
-            maxWidth: 345,
-            mr: 2,
-            flex: 1,
-          }}
-        >
-          <CardMedia sx={{ height: 150 }} image={major.thumbnail || ""} title="green iguana" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {major.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over 6,000 species,
-              ranging across all continents except Antarctica Lizards are a widespread group of
-              squamate reptiles, with over 6,000 species, ranging across all continents except
-              Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica Lizards are a widespread
-              group of squamate reptiles, with over 6,000 species, ranging across all
-              continents except Antarctica Lizards are a widespread group of squamate reptiles,
-              with over 6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
-
         <Paper
           variant="outlined"
           sx={{
@@ -97,7 +82,7 @@ export default function Register({ params }: { params: { id: string } }) {
                 mb: 4,
               }}
             >
-              Đăng ký sinh viên mới
+              Đăng ký giảng viên
             </Typography>
           </Box>
           <Grid container spacing={2}>
@@ -105,32 +90,31 @@ export default function Register({ params }: { params: { id: string } }) {
               <TextField
                 fullWidth
                 label="Họ và tên"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="full_name"
+                onChange={(e) => (formik.initialValues.full_name = e.target.value)}
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                placeholder=""
                 label="Ngày sinh"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="date_of_birth"
+                onChange={(e) => (formik.initialValues.date_of_birth = e.target.value)}
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                type="email"
                 fullWidth
                 label="Email"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="email"
+                onChange={(e) => (formik.initialValues.email = e.target.value)}
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
@@ -138,10 +122,9 @@ export default function Register({ params }: { params: { id: string } }) {
               <TextField
                 fullWidth
                 label="Số điện thoại"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="phone"
+                onChange={(e) => (formik.initialValues.phone = e.target.value)}
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
@@ -149,10 +132,11 @@ export default function Register({ params }: { params: { id: string } }) {
               <TextField
                 fullWidth
                 label="Số CMND/CCCD"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="national_identity_card"
+                onChange={(e) =>
+                  (formik.initialValues.national_identity_card = e.target.value)
+                }
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
@@ -160,10 +144,11 @@ export default function Register({ params }: { params: { id: string } }) {
               <TextField
                 fullWidth
                 label="Ngày cấp"
-                name="firstName"
-                onChange={formik.handleChange}
+                name="national_identity_card_date"
+                onChange={(e) =>
+                  (formik.initialValues.national_identity_card_date = e.target.value)
+                }
                 required
-                value={formik.values.firstName}
                 variant="outlined"
               />
             </Grid>
@@ -174,6 +159,7 @@ export default function Register({ params }: { params: { id: string } }) {
             }}
           >
             <Button
+              onClick={() => formik.submitForm()}
               variant="contained"
               sx={{
                 marginRight: 4,

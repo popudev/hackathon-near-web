@@ -8,6 +8,7 @@ export type Major = {
   created_at: number;
   updated_at: number;
 };
+
 export type CreateMajor = {
   thumbnail: string;
   name: string;

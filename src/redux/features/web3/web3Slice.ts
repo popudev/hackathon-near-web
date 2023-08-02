@@ -1,7 +1,8 @@
 import { Wallet } from "@/near/wallet";
 import { createSlice } from "@reduxjs/toolkit";
-import { Contract } from "near-api-js";
+
 import { Web3Thunks } from "./web3Thunk";
+import { Contract } from "@/near/contract";
 
 type Web3State = {
   isSignedIn: boolean;
