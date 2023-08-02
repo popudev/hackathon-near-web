@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { web3 } from "./features/web3/web3Slice";
 import { major } from "./features/major/majorSlice";
+import { subject } from "./features/subject/subjectSlice";
+import { score } from "./features/score/scoreSlice";
 
 export const store = configureStore({
   reducer: {
     web3: web3.reducer,
     major: major.reducer,
+    subject: subject.reducer,
+    score: score.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
