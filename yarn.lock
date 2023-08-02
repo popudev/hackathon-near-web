@@ -882,12 +882,10 @@
   dependencies:
     tslib "^2.4.0"
 
-<<<<<<< HEAD
 "@tabler/icons@^2.30.0":
   version "2.30.0"
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.30.0.tgz#4ea3c4da56fd5653bb9d0be0dc7feaa33602555c"
   integrity sha512-tvtmkI4ALjKThVVORh++sB9JnkFY7eGInKxNy+Df7WVQiF7T85tlvGADzlgX4Ic+CK5MIUzZ0jhOlQ/RRlgXpg==
-=======
 "@tanstack/query-core@4.32.1":
   version "4.32.1"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.32.1.tgz#6e364c33433b61f4dcef003725d4208e42b23860"
@@ -905,7 +903,6 @@
   dependencies:
     "@tanstack/query-core" "4.32.1"
     use-sync-external-store "^1.2.0"
->>>>>>> ea90a3a537501db7fc84a3dcafa8845363ac2b60
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
