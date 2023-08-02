@@ -86,7 +86,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Tên môn học"
-                name="name"
+                name="title"
                 onChange={formik.handleChange}
                 required
                 value={formik.values.title}
@@ -109,7 +109,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Số tín chỉ"
-                name="number_of_credits_required"
+                name="number_of_credits"
                 onChange={formik.handleChange}
                 required
                 type="number"
@@ -121,10 +121,10 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Mã môn tiên quyết"
-                name="number_of_credits_required"
+                name="prerequisite_subject_id"
                 onChange={formik.handleChange}
                 required
-                type="number"
+                type="text"
                 value={formik.values.prerequisite_subject_id}
                 variant="outlined"
               />
@@ -133,7 +133,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
               <TextField
                 fullWidth
                 label="Giá near"
-                name="number_of_credits_required"
+                name="price"
                 onChange={formik.handleChange}
                 required
                 type="number"

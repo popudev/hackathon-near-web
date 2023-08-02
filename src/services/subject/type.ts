@@ -1,6 +1,6 @@
 export type Subject = {
   subject_id: string;
-  instructor_id: string;
+  instructor_id: string | null;
   prerequisite_subject_id?: string;
   thumbnail?: string;
   title: string;

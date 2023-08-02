@@ -40,6 +40,10 @@ export default function Subject() {
             <TableCell align="left">Tên môn học</TableCell>
             <TableCell align="center">Ảnh mô tả</TableCell>
             <TableCell align="left">Mô tả</TableCell>
+            <TableCell align="center">Mã môn tiên quyết</TableCell>
+            <TableCell align="center">Số tín chỉ</TableCell>
+            <TableCell align="right">Tổng số học sinh</TableCell>
+            <TableCell align="right">Giảng viên giảng dạy</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,9 +52,15 @@ export default function Subject() {
               key={row.title}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="center">{row.title}</TableCell>
-              <TableCell align="left">{row.thumbnail}</TableCell>
-              <TableCell align="right">{row.description}</TableCell>
+              <TableCell align="left">{row.title}</TableCell>
+              <TableCell align="center">{row.thumbnail}</TableCell>
+              <TableCell align="left">{row.description}</TableCell>
+              <TableCell align="center">{row.prerequisite_subject_id}</TableCell>
+              <TableCell align="center">{row.number_of_credits}</TableCell>
+              <TableCell align="right">{row.number_students_studying}</TableCell>
+              <TableCell align="right">
+                {row.instructor_id !== null ? row.instructor_id : <Button>Phân công</Button>}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
