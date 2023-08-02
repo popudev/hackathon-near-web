@@ -7,6 +7,6 @@ interface PartialSubjectState {
 
 const subjectStateSelector = (state: PartialSubjectState) => state.subject;
 
-export const SubjectSelectos = {
+export const SubjectSelectors = {
   getSubjects: () => createSelector(subjectStateSelector, (subject) => subject.subjects),
 };

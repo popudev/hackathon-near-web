@@ -1,4 +1,4 @@
-import { MajorSelectos } from "@/redux/features/major/majorSelectors";
+import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorActions } from "@/redux/features/major/majorSlice";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
@@ -115,10 +115,11 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
                 value={formik.values.major_id}
                 label="Chọn ngành học"
                 onChange={formik.handleChange}
+                fullWidth
               >
                 {majors.map((major) => (
                   <MenuItem value={major.major_id} key={major.major_id}>
-                    {major.major_id}
+                    {major.name}
                   </MenuItem>
                 ))}
               </Select>

@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { MajorForm } from "../_components/majorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { MajorSelectos } from "@/redux/features/major/majorSelectors";
+import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 
 export default function Major() {
@@ -25,7 +25,7 @@ export default function Major() {
     dispatch(MajorThunks.getMajors());
   }, [dispatch]);
 
-  const majors = useAppSelector(MajorSelectos.getMajors());
+  const majors = useAppSelector(MajorSelectors.getMajors());
 
   return (
     <TableContainer component={Paper}>

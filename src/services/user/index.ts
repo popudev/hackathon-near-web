@@ -1,5 +1,5 @@
 import instance from "@/axiosConfig";
-import { CreateUserDto } from "./types";
+import { CreateUserDto, Instructor } from "./types";
 
 export class UserService {
   async registerStudent(createUser: CreateUserDto) {
@@ -8,6 +8,10 @@ export class UserService {
 
   async registerInstructor(createUser: CreateUserDto) {
     return instance.post<CreateUserDto, any>("/user/register-instructor", createUser);
+  }
+
+  async getAllInstructor() {
+    return instance.get<any, Instructor[]>("/user/instructor");
   }
 }
 export const userService = new UserService();

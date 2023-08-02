@@ -11,11 +11,14 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { MajorForm } from "../_components/majorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { MajorSelectos } from "@/redux/features/major/majorSelectors";
+import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
-import { SubjectSelectos } from "@/redux/features/subject/subjectSelectors";
+import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
 import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { SubjectForm } from "../_components/subjectForm";
+import { SelectedForm } from "../_components/SelectedForm";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
+import { UserThunks } from "@/redux/features/user/userThunk";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
@@ -27,13 +30,38 @@ export default function Subject() {
   useEffect(() => {
     dispatch(SubjectThunks.getSubjects());
     dispatch(MajorThunks.getMajors());
+    dispatch(UserThunks.getInstructors());
   }, [dispatch]);
 
-  const subjects = useAppSelector(SubjectSelectos.getSubjects());
-  const majors = useAppSelector(MajorSelectos.getMajors());
+  const subjects = useAppSelector(SubjectSelectors.getSubjects());
+  const majors = useAppSelector(MajorSelectors.getMajors());
+  const instructors = useAppSelector(UserSelectors.getInstructors());
+
+  const [visibleAssign, setVisibleAssign] = useState(false);
+  const hideAssign = () => setVisibleAssign(false);
+  const showAssign = (subject_id: string) => {
+    setSubjectAssignId(subject_id);
+    setVisibleAssign(true);
+  };
+  const handleAssginInstructor = (id: string) => {
+    const subject_id = subjectAssignId;
+    const instructor_id = id;
+    // them instructor vao` mon hoc
+  };
+
+  const [subjectAssignId, setSubjectAssignId] = useState("");
 
   return (
     <TableContainer component={Paper}>
+      {visibleAssign && (
+        <SelectedForm
+          title="Chọn giảng viên giảng dạy"
+          open={visibleAssign}
+          items={instructors.map((u) => ({ key: u.user_id, value: u.full_name }))}
+          onClose={hideAssign}
+          onConfirm={handleAssginInstructor}
+        />
+      )}
       {<SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />}
       <Button onClick={showForm}>Thêm môn học</Button>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -61,7 +89,11 @@ export default function Subject() {
               <TableCell align="center">{row.number_of_credits}</TableCell>
               <TableCell align="right">{row.number_students_studying}</TableCell>
               <TableCell align="right">
-                {row.instructor_id !== null ? row.instructor_id : <Button>Phân công</Button>}
+                {row.instructor_id !== null ? (
+                  row.instructor_id
+                ) : (
+                  <Button onClick={() => showAssign(row.subject_id)}>Phân công</Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
