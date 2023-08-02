@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { MajorForm } from "../_components/majorForm";
+import { MajorForm } from "../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
