@@ -14,19 +14,22 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/axiosConfig";
 import { UserPayload } from "types/responses";
 
+import { signIn } from "@/app/actions/auth";
+import { verifyJwtToken } from "@/libs/auth";
+import { UserThunk } from "@/redux/features/user/userThunk";
+import { userService } from "@/services/user";
+
 export default function Login() {
   const [value, setValue] = useState("1");
 
   const { wallet, isSignedIn } = useAppSelector((state) => state.web3);
-  const router = useRouter();
 
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const mutationLogin = useMutation({
-    mutationFn: (data: Object) => {
-      return axios<UserPayload>({
-        url: "/user/login",
-        method: "POST",
-        data,
-      });
+    mutationFn: (data: { username: string; password: string }) => {
+      const { username, password } = data;
+      return userService.signIn(username, password);
     },
   });
   const formik = useFormik({
@@ -59,8 +62,13 @@ export default function Login() {
 
   useEffect(() => {
     if (mutationLogin.data) {
-      console.log(mutationLogin.data.data.accessToken);
-      alert("login success");
+      if (mutationLogin.data.accessToken) {
+        const { accessToken } = mutationLogin.data;
+        signIn(accessToken);
+        dispatch(UserThunk.getPayload(accessToken));
+
+        router.push("/");
+      }
     }
   }, [mutationLogin.data]);
 

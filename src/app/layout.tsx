@@ -3,7 +3,8 @@ import ThemeRegistry from "@/theme/ThemeRegistry";
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
 import BackgroundImage from "../assets/images/background.jpg";
-import { InitializationWallet } from "./_components/InitializationWallet";
+
+import { Initialization } from "./_components/Initialization";
 import { Header } from "./_components/common/Header";
 import { RoleType } from "@/services/major/types";
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <ThemeRegistry>
         <body suppressHydrationWarning={true} className={inter.className}>
           <Providers>
-            <InitializationWallet />
+            <Initialization />
             <Box
               sx={{
                 backgroundImage: `url('${BackgroundImage.src}')`,
