@@ -9,6 +9,7 @@ import subjectService from "@/services/subject";
 import {
   Box,
   Button,
+  FormControl,
   Grid,
   InputLabel,
   MenuItem,
@@ -81,7 +82,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: "500",
               textAlign: "center",
               mb: 4,
@@ -111,18 +112,23 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Select
-                value={formik.values.major_id}
-                label="Chọn ngành học"
-                onChange={formik.handleChange}
-                fullWidth
-              >
-                {majors.map((major) => (
-                  <MenuItem value={major.major_id} key={major.major_id}>
-                    {major.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Môn học thuộc ngành</InputLabel>
+                <Select
+                  value={formik.values.major_id}
+                  labelId="demo-simple-select-label"
+                  label="Môn học thuộc ngành"
+                  placeholder="Môn học thuộc ngành"
+                  onChange={formik.handleChange}
+                  fullWidth
+                >
+                  {majors.map((major) => (
+                    <MenuItem value={major.major_id} key={major.major_id}>
+                      {major.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -172,7 +178,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <p>Kéo và thả tệp ảnh mô tả vào đây</p>
               </Grid>
@@ -185,7 +191,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
                   />
                 )}
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box
             sx={{
