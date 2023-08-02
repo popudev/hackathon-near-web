@@ -1,6 +1,7 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hooks";
+import { MajorThunks } from "@/redux/features/major/majorThunk";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   Box,
   Button,
@@ -14,9 +15,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 
 export default function Register() {
   const majors = useAppSelector((state) => state.major.majors);
+  console.log("majors: ", majors);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(MajorThunks.getMajors());
+  }, [dispatch]);
 
   return (
     <Box
