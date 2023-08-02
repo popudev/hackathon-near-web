@@ -1,20 +1,36 @@
+import { MajorSelectos } from "@/redux/features/major/majorSelectors";
 import { MajorActions } from "@/redux/features/major/majorSlice";
+import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import majorService, { MajorService } from "@/services/major";
+import { Major } from "@/services/major/types";
 import subjectService from "@/services/subject";
-import { Box, Button, Grid, Modal, Paper, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  majors: Major[];
 }
-export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
+export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useAppDispatch();
+
   const formik = useFormik({
     initialValues: {
       thumbnail: "",
@@ -23,6 +39,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
       number_of_credits: 0,
       prerequisite_subject_id: undefined,
       price: 0,
+      major_id: undefined,
     },
     onSubmit: (values) => {
       (async () => {
@@ -92,6 +109,19 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose }) => {
                 value={formik.values.title}
                 variant="outlined"
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Select
+                value={formik.values.major_id}
+                label="Chọn ngành học"
+                onChange={formik.handleChange}
+              >
+                {majors.map((major) => (
+                  <MenuItem value={major.major_id} key={major.major_id}>
+                    {major.major_id}
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
             <Grid item xs={12}>
               <TextField

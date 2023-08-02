@@ -8,47 +8,7 @@ export type SubjectState = {
 };
 
 const initialState: SubjectState = {
-  subjects: [
-    {
-      subject_id: "1",
-      instructor_id: "1",
-      prerequisite_subject_id: "159753",
-      thumbnail: "/static/images/software-development.jpg",
-      title: "Giáo dục công dân",
-      description: "Dạy cách làm người",
-      number_of_credits: 8,
-      price: 100000,
-      number_students_studying: 4,
-      created_at: Date.now(),
-      updated_at: Date.now(),
-    },
-    {
-      subject_id: "1",
-      instructor_id: "1",
-      prerequisite_subject_id: "159753",
-      thumbnail: "/static/images/software-development.jpg",
-      title: "Giáo dục công dân",
-      description: "Dạy cách làm người",
-      number_of_credits: 8,
-      price: 100000,
-      number_students_studying: 4,
-      created_at: Date.now(),
-      updated_at: Date.now(),
-    },
-    {
-      subject_id: "1",
-      instructor_id: "1",
-      prerequisite_subject_id: "159753",
-      thumbnail: "/static/images/software-development.jpg",
-      title: "Giáo dục công dân",
-      description: "Dạy cách làm người",
-      number_of_credits: 8,
-      price: 100000,
-      number_students_studying: 4,
-      created_at: Date.now(),
-      updated_at: Date.now(),
-    },
-  ],
+  subjects: [],
 };
 
 export const subject = createSlice({

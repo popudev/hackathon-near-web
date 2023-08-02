@@ -14,16 +14,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectos } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
 export default function Major() {
   const [visibleForm, setVisibleForm] = useState(false);
   const hideForm = () => setVisibleForm(false);

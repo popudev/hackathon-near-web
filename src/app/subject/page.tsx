@@ -26,13 +26,15 @@ export default function Subject() {
 
   useEffect(() => {
     dispatch(SubjectThunks.getSubjects());
+    dispatch(MajorThunks.getMajors());
   }, [dispatch]);
 
   const subjects = useAppSelector(SubjectSelectos.getSubjects());
+  const majors = useAppSelector(MajorSelectos.getMajors());
 
   return (
     <TableContainer component={Paper}>
-      {<SubjectForm open={visibleForm} onClose={hideForm} />}
+      {<SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />}
       <Button onClick={showForm}>Thêm môn học</Button>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

@@ -3,7 +3,7 @@ import subjectService from "@/services/subject";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const SubjectThunks = {
-  getSubjects: createAsyncThunk("major", async () => {
+  getSubjects: createAsyncThunk("subject", async () => {
     const subjects = await subjectService.getAll();
     return subjects;
   }),
