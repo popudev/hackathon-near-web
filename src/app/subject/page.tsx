@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { MajorForm } from "../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
@@ -17,7 +18,7 @@ import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { SubjectForm } from "../_components/subjectForm";
 import { SelectedForm } from "../_components/SelectedForm";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { UserThunks } from "@/redux/features/user/userThunk";
+import { UserThunk } from "@/redux/features/user/userThunk";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
@@ -29,7 +30,7 @@ export default function Subject() {
   useEffect(() => {
     dispatch(SubjectThunks.getSubjects());
     dispatch(MajorThunks.getMajors());
-    dispatch(UserThunks.getInstructors());
+    dispatch(UserThunk.getInstructors());
   }, [dispatch]);
 
   const subjects = useAppSelector(SubjectSelectors.getSubjects());

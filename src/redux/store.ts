@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { web3 } from "./features/web3/web3Slice";
 import { major } from "./features/major/majorSlice";
 import { subject } from "./features/subject/subjectSlice";
+import { score } from "./features/score/scoreSlice";
 import { user } from "./features/user/userSlice";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     web3: web3.reducer,
     major: major.reducer,
     subject: subject.reducer,
+    score: score.reducer,
     user: user.reducer,
   },
   middleware: (getDefaultMiddleware) =>

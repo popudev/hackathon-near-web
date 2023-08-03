@@ -13,7 +13,7 @@ export type Subject = {
 };
 export type CreateSubject = {
   thumbnail?: string;
-  major_id?: string;
+  major_id: string;
   title: string;
   description: string;
   number_of_credits: number;

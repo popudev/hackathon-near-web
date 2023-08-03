@@ -1,10 +1,13 @@
 "use client";
+import { useAppSelector } from "@/redux/hooks";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 
 export default function Home() {
+  const information = useAppSelector((state) => state.user);
+
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      {/* <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="static"
           sx={{
@@ -15,12 +18,12 @@ export default function Home() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               SuperSchool
             </Typography>
-            <Button href={"/login"} color="inherit">
-              Đăng nhập
+            <Button href={information.payload ? "/logout" : "/login"} color="inherit">
+              {information.payload ? "Đăng xuất" : "Đăng nhập"}
             </Button>
           </Toolbar>
         </AppBar>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: "flex",
