@@ -1,5 +1,5 @@
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
-import { MajorActions } from "@/redux/features/major/majorSlice";
+import { MajorActions, major } from "@/redux/features/major/majorSlice";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -9,6 +9,7 @@ import subjectService from "@/services/subject";
 import {
   Box,
   Button,
+  FormControl,
   Grid,
   InputLabel,
   MenuItem,
@@ -19,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { utils } from "near-api-js";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
@@ -49,7 +51,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           description: values.description,
           number_of_credits: values.number_of_credits,
           prerequisite_subject_id: values.prerequisite_subject_id,
-          price: values.price,
+          price: values.price, // price NEAR
           major_id: values.major_id,
         });
         dispatch(SubjectActions.addSubject(subject));
@@ -82,7 +84,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: "500",
               textAlign: "center",
               mb: 4,
@@ -112,20 +114,24 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Select
-                value={formik.values.major_id}
-                label="Chọn ngành học"
-                onChange={(e) => {
-                  formik.values.major_id = e.target.value;
-                }}
-                fullWidth
-              >
-                {majors.map((major) => (
-                  <MenuItem value={major.major_id} key={major.major_id}>
-                    {major.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Môn học thuộc ngành</InputLabel>
+                <Select
+                  value={formik.values.major_id}
+                  labelId="demo-simple-select-label"
+                  label="Môn học thuộc ngành"
+                  placeholder="Môn học thuộc ngành"
+                  name="major_id"
+                  onChange={formik.handleChange}
+                  fullWidth
+                >
+                  {majors.map((major) => (
+                    <MenuItem value={major.major_id} key={major.major_id}>
+                      {major.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -174,20 +180,6 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
                 value={formik.values.price}
                 variant="outlined"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={2} alignItems="center" justifyContent="center">
-                <p>Kéo và thả tệp ảnh mô tả vào đây</p>
-              </Grid>
-              <Grid item xs={12}>
-                {selectedImage && (
-                  <Image
-                    src={selectedImage}
-                    alt="Preview"
-                    style={{ maxWidth: "100%", maxHeight: "200px" }}
-                  />
-                )}
-              </Grid>
             </Grid>
           </Grid>
           <Box
