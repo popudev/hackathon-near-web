@@ -6,12 +6,12 @@ import { Major } from "@/services/major/types";
 import { Subject } from "@/services/subject/type";
 import { Instructor } from "@/services/user/types";
 import { UserThunk } from "./userThunk";
+import { DecodeToken } from "types";
 
 export type UserState = {
   instructors: Instructor[];
-  payload: JWTPayload | null
+  payload: DecodeToken<JWTPayload, UserMetadata>;
 };
-
 
 const initialState: UserState = {
   payload: null,
@@ -35,11 +35,8 @@ export const user = createSlice({
     });
     build.addCase(UserThunk.getInstructors.fulfilled, (state, action) => {
       state.instructors = action.payload;
-
     });
-  }
+  },
 });
 
-
 export const UserActions = user.actions;
-
