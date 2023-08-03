@@ -14,7 +14,7 @@ export class UserService {
   async signIn(username, password) {
     type U = UserPayload;
     return instance<U, U>({
-      url: "/user/login",
+      url: "/auth/login",
       method: "POST",
       data: { username, password },
     });
