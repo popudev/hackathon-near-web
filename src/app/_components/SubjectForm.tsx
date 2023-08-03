@@ -1,5 +1,5 @@
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
-import { MajorActions } from "@/redux/features/major/majorSlice";
+import { MajorActions, major } from "@/redux/features/major/majorSlice";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -20,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { utils } from "near-api-js";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
@@ -50,7 +51,8 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           description: values.description,
           number_of_credits: values.number_of_credits,
           prerequisite_subject_id: values.prerequisite_subject_id,
-          price: values.price,
+          price: values.price, // price NEAR
+          major_id: values.major_id,
         });
         dispatch(SubjectActions.addSubject(subject));
       })();
@@ -119,6 +121,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
                   labelId="demo-simple-select-label"
                   label="Môn học thuộc ngành"
                   placeholder="Môn học thuộc ngành"
+                  name="major_id"
                   onChange={formik.handleChange}
                   fullWidth
                 >

@@ -84,8 +84,8 @@ export default function Register({ params }: { params: { id: string } }) {
             }}
           >
             <CardMedia
-              sx={{ height: 150 }}
-              image={major.thumbnail || ""}
+              sx={{ height: 150, width: 300 }}
+              image={major.thumbnail || "/static/images/software-development.jpg"}
               title="green iguana"
             />
             <CardContent>
@@ -222,9 +222,9 @@ export default function Register({ params }: { params: { id: string } }) {
       </Backdrop>
       <AlertDialogSlide
         open={openDialog}
-        title="Bạn đã đăng ký vào vị trí giảng viên thành công"
+        title="Bạn đã đăng ký nhập học thành công"
         desrciption="Đơn đăng ký của bạn đã được gửi đến quản trị viên. Vui lòng kiểm tra email để nhận được thông báo"
-        onClose={() => {}}
+        onClose={() => setOpenDialog(false)}
       />
     </>
   );

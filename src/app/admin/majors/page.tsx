@@ -74,7 +74,14 @@ export default function Major() {
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}
                       <TableCell align="center">{row.name}</TableCell>
-                      <TableCell align="center">{row.description}</TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          width: 400,
+                        }}
+                      >
+                        {row.description}
+                      </TableCell>
                       <TableCell align="center">{row.number_of_credits_required}</TableCell>
                       <TableCell align="center">{row.number_students || 0}</TableCell>
                     </TableRow>

@@ -20,6 +20,7 @@ import { SelectedForm } from "../../_components/SelectedForm";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
 import { UserThunk } from "@/redux/features/user/userThunk";
 import AddIcon from "@mui/icons-material/Add";
+import { utils } from "near-api-js";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
@@ -61,6 +62,14 @@ export default function Subject() {
       }}
     >
       <Container maxWidth={false}>
+        <SelectedForm
+          title="Chọn giảng viên giảng dạy"
+          open={visibleAssign}
+          items={instructors.map((u) => ({ key: u.user_id, value: u.full_name }))}
+          onClose={hideAssign}
+          onConfirm={handleAssginInstructor}
+        />
+
         <SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />
         <Fab
           size={"large"}
@@ -85,8 +94,9 @@ export default function Subject() {
                     {/* <TableCell align="center">Hình ảnh</TableCell> */}
                     <TableCell align="center">Tên môn học</TableCell>
                     <TableCell align="center">Mô tả</TableCell>
-                    <TableCell align="center">Mã môn tiên quyết</TableCell>
+                    <TableCell align="center">Môn tiên quyết</TableCell>
                     <TableCell align="center">Số tín chỉ</TableCell>
+                    <TableCell align="center">Học phí</TableCell>
                     <TableCell align="center">Tổng số học sinh</TableCell>
                     <TableCell align="center">Giảng viên giảng dạy</TableCell>
                   </TableRow>
@@ -99,14 +109,22 @@ export default function Subject() {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
+                      <TableCell align="center">{row.title}</TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          width: 300,
+                        }}
+                      >
+                        {row.description}
+                      </TableCell>
                       <TableCell align="center">
                         {row.prerequisite_subject_id || "Không có"}
                       </TableCell>
                       <TableCell align="center">{row.number_of_credits || 0}</TableCell>
-                      <TableCell align="right">{row.number_students_studying || 0}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">{row.price || 0}</TableCell>
+                      <TableCell align="center">{row.number_students_studying || 0}</TableCell>
+                      <TableCell align="center">
                         {row.instructor_id !== null ? (
                           row.instructor_id
                         ) : (

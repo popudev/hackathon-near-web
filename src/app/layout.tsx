@@ -21,7 +21,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <ThemeRegistry>
         <body suppressHydrationWarning={true} className={inter.className}>
           <Providers>
-            <Initialization />
             <Box
               sx={{
                 backgroundImage: `url('${BackgroundImage.src}')`,
@@ -30,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 backgroundPosition: "center",
               }}
             >
+              <Initialization />
               <Box
                 sx={{
                   width: "100%",
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   flexDirection: "column",
                 }}
               >
-                <Header role={RoleType.ADMIN} />
+                <Header />
                 {children}
               </Box>
             </Box>

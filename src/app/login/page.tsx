@@ -70,6 +70,7 @@ export default function Login() {
         router.push("/");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutationLogin.data]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

@@ -111,7 +111,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <p>Kéo và thả tệp ảnh mô tả vào đây</p>
               </Grid>
@@ -124,7 +124,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
                   />
                 )}
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box
             sx={{

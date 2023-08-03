@@ -57,10 +57,10 @@ export default function Major() {
       >
         {majors.map((major) => {
           return (
-            <Card key={major.major_id} sx={{ maxWidth: 345, m: 2 }}>
+            <Card key={major.major_id} sx={{ width: 300, m: 2, border: "1px solid #fff" }}>
               <CardMedia
                 sx={{ height: 140 }}
-                image={major.thumbnail || ""}
+                image={major.thumbnail || "/static/images/software-development.jpg"}
                 title="green iguana"
               />
               <CardContent>
@@ -68,12 +68,11 @@ export default function Major() {
                   {major.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species,
-                  ranging across all continents except Antarctica
+                  {major.description}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button href={`register/${major.major_id}`} size="medium">
+                <Button href={`/register/student/${major.major_id}`} size="medium">
                   Đăng ký
                 </Button>
               </CardActions>

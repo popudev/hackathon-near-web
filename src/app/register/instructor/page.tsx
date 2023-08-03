@@ -188,7 +188,7 @@ export default function Register() {
         open={openDialog}
         title="Bạn đã đăng ký vào vị trí giảng viên thành công"
         desrciption="Đơn đăng ký của bạn đã được gửi đến quản trị viên. Vui lòng kiểm tra email để nhận được thông báo"
-        onClose={() => {}}
+        onClose={() => setOpenDialog(false)}
       />
     </>
   );
