@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Button, Card, Container, Fab } from "@mui/material";
+import { Backdrop, Box, Button, Card, CircularProgress, Container, Fab } from "@mui/material";
 import { MajorForm } from "../../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
@@ -21,9 +21,12 @@ import { UserSelectors } from "@/redux/features/user/userSelectors";
 import { UserThunk } from "@/redux/features/user/userThunk";
 import AddIcon from "@mui/icons-material/Add";
 import { utils } from "near-api-js";
+import { Subject } from "@/services/subject/type";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
+  const [subjectList, setSubjectList] = useState<Subject[]>([]);
   const hideForm = () => setVisibleForm(false);
   const showForm = () => setVisibleForm(true);
 
@@ -38,6 +41,10 @@ export default function Subject() {
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
   const majors = useAppSelector(MajorSelectors.getMajors());
   const instructors = useAppSelector(UserSelectors.getInstructors());
+
+  useEffect(() => {
+    setSubjectList(subjects);
+  }, [subjects]);
 
   const [visibleAssign, setVisibleAssign] = useState(false);
   const hideAssign = () => setVisibleAssign(false);
@@ -70,7 +77,12 @@ export default function Subject() {
           onConfirm={handleAssginInstructor}
         />
 
-        <SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />
+        <SubjectForm
+          open={visibleForm}
+          onClose={hideForm}
+          majors={majors}
+          setLoading={setOpenLoading}
+        />
         <Fab
           size={"large"}
           color="primary"
@@ -103,7 +115,7 @@ export default function Subject() {
                 </TableHead>
 
                 <TableBody>
-                  {subjects.map((row) => (
+                  {subjectList.map((row) => (
                     <TableRow
                       key={row.title}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -139,6 +151,12 @@ export default function Subject() {
           </Card>
         </Box>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1000 }}
+        open={openLoading}
+      >
+        <CircularProgress color="inherit" size={60} />
+      </Backdrop>
     </Box>
   );
 }

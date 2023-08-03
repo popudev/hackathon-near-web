@@ -28,8 +28,9 @@ interface Props {
   open: boolean;
   onClose: () => void;
   majors: Major[];
+  setLoading: (arg: boolean) => void;
 }
-export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
+export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useAppDispatch();
 
@@ -45,6 +46,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
     },
     onSubmit: (values) => {
       (async () => {
+        setLoading(true);
         const subject = await subjectService.create({
           thumbnail: values.thumbnail,
           title: values.title,
@@ -54,7 +56,21 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           price: values.price, // price NEAR
           major_id: values.major_id,
         });
-        dispatch(SubjectActions.addSubject(subject));
+        dispatch(
+          SubjectActions.addSubject({
+            thumbnail: values.thumbnail,
+            title: values.title,
+            description: values.description,
+            number_of_credits: values.number_of_credits,
+            prerequisite_subject_id: values.prerequisite_subject_id,
+            number_students_studying: 0,
+            price: values.price, // price NEAR
+            major_id: values.major_id,
+            instructor_id: null,
+          })
+        );
+        setLoading(false);
+        onClose();
       })();
     },
   });

@@ -52,7 +52,7 @@ export const Header = () => {
               SuperSchool
             </Typography>
 
-            {user?.role === RoleType.ADMIN && <StudentToolbar />}
+            {user?.role === RoleType.ADMIN && <AdminToolbar />}
             {user?.role === RoleType.INSTRUCTOR && <InstructorToolbar />}
             {user?.role === RoleType.STUDENT && <StudentToolbar />}
 
