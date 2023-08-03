@@ -39,10 +39,20 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
       number_of_credits: 0,
       prerequisite_subject_id: undefined,
       price: 0,
-      major_id: undefined,
+      major_id: "",
     },
     onSubmit: (values) => {
       (async () => {
+        console.log("subject: ", {
+          thumbnail: values.thumbnail,
+          title: values.title,
+          description: values.description,
+          number_of_credits: values.number_of_credits,
+          prerequisite_subject_id: values.prerequisite_subject_id,
+          price: values.price,
+          major_id: values.major_id,
+        });
+
         const subject = await subjectService.create({
           thumbnail: values.thumbnail,
           title: values.title,
@@ -50,6 +60,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
           number_of_credits: values.number_of_credits,
           prerequisite_subject_id: values.prerequisite_subject_id,
           price: values.price,
+          major_id: values.major_id,
         });
         dispatch(SubjectActions.addSubject(subject));
       })();
@@ -114,7 +125,9 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors }) => {
               <Select
                 value={formik.values.major_id}
                 label="Chọn ngành học"
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  formik.values.major_id = e.target.value;
+                }}
                 fullWidth
               >
                 {majors.map((major) => (
