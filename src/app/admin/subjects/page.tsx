@@ -21,6 +21,7 @@ import { UserSelectors } from "@/redux/features/user/userSelectors";
 import { UserThunk } from "@/redux/features/user/userThunk";
 import AddIcon from "@mui/icons-material/Add";
 import { utils } from "near-api-js";
+import { Subject } from "@/services/subject/type";
 import { AlertDialogSlide } from "@/app/_components/AlertDialogSlide";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
 import { UserActions } from "@/redux/features/user/userSlice";
@@ -28,6 +29,8 @@ import { UserService } from "@/services/user";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
+  const [subjectList, setSubjectList] = useState<Subject[]>([]);
   const hideForm = () => setVisibleForm(false);
   const showForm = () => setVisibleForm(true);
   const [openDialog, setOpenDialog] = useState(false);
@@ -45,17 +48,22 @@ export default function Subject() {
   const majors = useAppSelector(MajorSelectors.getMajors());
   const instructors = useAppSelector(UserSelectors.getInstructors());
 
+  useEffect(() => {
+    setSubjectList(subjects);
+  }, [subjects]);
+
   const [visibleAssign, setVisibleAssign] = useState(false);
   const hideAssign = () => setVisibleAssign(false);
   const showAssign = () => setVisibleAssign(true);
 
-  const [subject, setSubject] = useState<{ subject_id: string; price: number }>();
+  const [subject, setSubject] = useState<{ subject_id?: string; price: number }>();
 
   const [title, setTitle] = useState("");
 
   const handleAssginInstructor = useCallback(
     (instructor_id: string) => {
       if (!subject) return;
+      if (!subject.subject_id) return;
       const { subject_id, price } = subject;
       setOpen(true);
       dispatch(UserThunk.assignSubject({ instructor_id, subject_id, price })).then(() => {
@@ -84,7 +92,12 @@ export default function Subject() {
           onConfirm={(id) => handleAssginInstructor(id)}
         />
 
-        <SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />
+        <SubjectForm
+          open={visibleForm}
+          onClose={hideForm}
+          majors={majors}
+          setLoading={setOpenLoading}
+        />
         <Fab
           size={"large"}
           color="primary"
@@ -117,7 +130,7 @@ export default function Subject() {
                 </TableHead>
 
                 <TableBody>
-                  {subjects.map((row) => (
+                  {subjectList.map((row) => (
                     <TableRow
                       key={row.title}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -172,6 +185,12 @@ export default function Subject() {
           onClose={() => setOpenDialog(false)}
         />
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1000 }}
+        open={openLoading}
+      >
+        <CircularProgress color="inherit" size={60} />
+      </Backdrop>
     </Box>
   );
 }

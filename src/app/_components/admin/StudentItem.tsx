@@ -38,18 +38,18 @@ import { useRouter } from "next/navigation";
 //     onDelete: (userId: String) => void;
 //   }
 
-export function StudentItem() {
+export function StudentItem({ data }) {
   return (
     <TableRow>
       {/* <TableCell align="left" sx={{ display: "none" }}>
           {user?.code}
         </TableCell> */}
-      <TableCell align="center">Lương Chi Thịnh</TableCell>
+      <TableCell align="center">{data.full_name}</TableCell>
       <TableCell align="center" sx={{}}>
-        luongchithinh123@gmail.com
+        {data.email}
       </TableCell>
-      <TableCell align="center">0909075304</TableCell>
-      <TableCell align="center">01/05/2002</TableCell>
+      <TableCell align="center">{data.phone}</TableCell>
+      <TableCell align="center">{data.date_of_birth}</TableCell>
       <TableCell align="center">
         <PopupState variant="popover" popupId="popup-menu">
           {(popupState) => (

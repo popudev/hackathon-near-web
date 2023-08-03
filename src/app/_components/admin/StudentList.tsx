@@ -24,8 +24,19 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Web3Thunks } from "@/redux/features/web3/web3Thunk";
 import { useRouter } from "next/navigation";
 import { StudentItem } from "./StudentItem";
+import { userService } from "@/services/user";
+import { UserMetadata } from "types/entities";
 
 export default function StudentList() {
+  const [studentList, setStudentList] = useState<UserMetadata[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const studentResult = await userService.getAllStudents();
+      setStudentList(studentResult);
+    })();
+  }, []);
+
   return (
     <Box>
       <Card sx={{ mt: 3, boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}>
@@ -41,11 +52,9 @@ export default function StudentList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StudentItem />
-              <StudentItem />
-              <StudentItem />
-              <StudentItem />
-
+              {studentList.map((student) => (
+                <StudentItem key={student.user_id} data={student} />
+              ))}
               {/* gegwsgegeg */}
               {/* <NewsManagementItem
             key={news.id}

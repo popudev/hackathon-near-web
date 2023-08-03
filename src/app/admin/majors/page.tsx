@@ -8,26 +8,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Button, Card, Container } from "@mui/material";
+import { Backdrop, Box, Button, Card, CircularProgress, Container } from "@mui/material";
 import { MajorForm } from "../../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import { Major } from "@/services/major/types";
 
 export default function Major() {
+  const majors = useAppSelector(MajorSelectors.getMajors());
   const [visibleForm, setVisibleForm] = useState(false);
+  const [majorList, setMajorList] = useState<Major[]>(majors);
+  const [openLoading, setOpenLoading] = useState(false);
   const hideForm = () => setVisibleForm(false);
   const showForm = () => setVisibleForm(true);
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(MajorThunks.getMajors());
-  }, [dispatch]);
-
-  const majors = useAppSelector(MajorSelectors.getMajors());
+    console.log("thay đổi nè", majors);
+    setMajorList(majors);
+  }, [majors]);
 
   return (
     <Box
@@ -37,7 +38,7 @@ export default function Major() {
       }}
     >
       <Container maxWidth={false}>
-        <MajorForm open={visibleForm} onClose={hideForm} />
+        <MajorForm open={visibleForm} onClose={hideForm} setLoadingScreen={setOpenLoading} />
         <Fab
           size={"large"}
           color="primary"
@@ -67,9 +68,9 @@ export default function Major() {
                 </TableHead>
 
                 <TableBody>
-                  {majors.map((row) => (
+                  {majorList.map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row.major_id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}
@@ -92,6 +93,12 @@ export default function Major() {
           </Card>
         </Box>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1000 }}
+        open={openLoading}
+      >
+        <CircularProgress color="inherit" size={60} />
+      </Backdrop>
     </Box>
   );
 }
