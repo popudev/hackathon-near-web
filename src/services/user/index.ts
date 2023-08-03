@@ -26,5 +26,11 @@ export class UserService {
   async getAllStudents() {
     return instance.get<any, UserMetadata[]>("/user");
   }
+
+  async assignSubject(instructor_id: string, subject_id: string, price: number) {
+    const assignInstructorDto = { instructor_id, subject_id, price };
+    console.log("assignInstructorDto: ", assignInstructorDto);
+    instance.post("/user/instructor/assignment", assignInstructorDto);
+  }
 }
 export const userService = new UserService();

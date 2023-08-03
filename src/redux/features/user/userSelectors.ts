@@ -9,5 +9,8 @@ const userStateSelector = (state: PartialUserState) => state.user;
 
 export const UserSelectors = {
   getUser: () => createSelector(userStateSelector, ({ payload }) => payload),
-  getInstructors: () => createSelector(userStateSelector, (user) => user.instructors),
+  getInstructors: () =>
+    createSelector(userStateSelector, (user) =>
+      user.instructors.filter((instructor) => instructor.active)
+    ),
 };

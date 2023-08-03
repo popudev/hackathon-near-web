@@ -13,4 +13,11 @@ export const UserThunk = {
     const instructors = await userService.getAllInstructor();
     return instructors;
   }),
+  assignSubject: createAsyncThunk(
+    "instructor/assignment",
+    async (assigment: { instructor_id: string; subject_id: string; price: number }) => {
+      const { instructor_id, subject_id, price } = assigment;
+      return userService.assignSubject(instructor_id, subject_id, price);
+    }
+  ),
 };

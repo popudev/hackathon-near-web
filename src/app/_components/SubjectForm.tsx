@@ -42,7 +42,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
       number_of_credits: 0,
       prerequisite_subject_id: undefined,
       price: 0,
-      major_id: undefined,
+      major_id: "",
     },
     onSubmit: (values) => {
       (async () => {
@@ -197,20 +197,6 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
                 variant="outlined"
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <Grid container spacing={2} alignItems="center" justifyContent="center">
-                <p>Kéo và thả tệp ảnh mô tả vào đây</p>
-              </Grid>
-              <Grid item xs={12}>
-                {selectedImage && (
-                  <Image
-                    src={selectedImage}
-                    alt="Preview"
-                    style={{ maxWidth: "100%", maxHeight: "200px" }}
-                  />
-                )}
-              </Grid>
-            </Grid> */}
           </Grid>
           <Box
             sx={{
