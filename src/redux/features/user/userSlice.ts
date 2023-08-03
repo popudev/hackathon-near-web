@@ -9,9 +9,8 @@ import { UserThunk } from "./userThunk";
 
 export type UserState = {
   instructors: Instructor[];
-  payload: JWTPayload | null
+  payload: JWTPayload | null;
 };
-
 
 const initialState: UserState = {
   payload: null,
@@ -35,11 +34,8 @@ export const user = createSlice({
     });
     build.addCase(UserThunk.getInstructors.fulfilled, (state, action) => {
       state.instructors = action.payload;
-
     });
-  }
+  },
 });
 
-
 export const UserActions = user.actions;
-

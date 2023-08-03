@@ -1,30 +1,15 @@
 "use client";
-
 import {
   Box,
-  Button,
   Card,
   Container,
-  Grid,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Web3Thunks } from "@/redux/features/web3/web3Thunk";
-import { useRouter } from "next/navigation";
-import { StudentSubjectItem } from "@/app/_components/student/StudentSubjectItem";
+import { useAppSelector } from "@/redux/hooks";
 import { StudentScoreItem } from "@/app/_components/student/StudentScoreItem";
 
 export default function ScoreList() {
@@ -54,14 +39,6 @@ export default function ScoreList() {
                   {scores.map((score) => {
                     return <StudentScoreItem key={score.score_id} data={score} />;
                   })}
-                  {/* gegwsgegeg */}
-                  {/* <NewsManagementItem
-            key={news.id}
-            news={news}
-            onDelete={handleRemoveNews}
-            onDisable={handleDisableNews}
-            onUpdateNewsClick={handleUpdateNewsClick}
-          /> */}
                 </TableBody>
               </Table>
             </Box>

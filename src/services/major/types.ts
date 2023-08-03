@@ -34,9 +34,9 @@ export type Score = {
 };
 
 export enum RoleType {
-  ADMIN = "ADMIN",
-  STUDENT = "STUDENT",
-  INSTRUCTOR = "INSTRUCTOR",
+  ADMIN = "Admin",
+  STUDENT = "Student",
+  INSTRUCTOR = "Instructor",
 }
 export type CreateMajor = {
   thumbnail: string;

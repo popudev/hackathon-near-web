@@ -1,21 +1,17 @@
-import { MajorActions } from "@/redux/features/major/majorSlice";
-import { useAppDispatch } from "@/redux/hooks";
-import majorService, { MajorService } from "@/services/major";
 import {
   Box,
   Button,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   Modal,
   Paper,
   Select,
   SelectChangeEvent,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 interface Props {
   title: string;
@@ -24,6 +20,7 @@ interface Props {
   onClose: () => void;
   onConfirm: (id: string) => void;
 }
+
 export const SelectedForm: React.FC<Props> = ({ open, onClose, onConfirm, items, title }) => {
   const [value, setValue] = useState("");
   const handleChange = (event: SelectChangeEvent) => setValue(event.target.value);
@@ -54,7 +51,7 @@ export const SelectedForm: React.FC<Props> = ({ open, onClose, onConfirm, items,
           <Typography
             variant="h1"
             sx={{
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: "500",
               textAlign: "center",
               mb: 4,
@@ -71,15 +68,32 @@ export const SelectedForm: React.FC<Props> = ({ open, onClose, onConfirm, items,
             justifyContent: "center",
           }}
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              width: 400,
+            }}
+          >
             <Grid item xs={12}>
-              <Select label="Chọn ngành học" fullWidth onChange={handleChange}>
-                {items.map((item) => (
-                  <MenuItem value={item.key} key={item.key}>
-                    {item.value}
-                  </MenuItem>
-                ))}
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label-1">
+                  Chọn giảng viên phân công
+                </InputLabel>
+                <Select
+                  label="Chọn giảng viên phân công"
+                  fullWidth
+                  labelId="demo-simple-select-label-1"
+                  name="instructor_id"
+                  onChange={handleChange}
+                >
+                  {items.map((item) => (
+                    <MenuItem value={item.key} key={item.key}>
+                      {item.value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <Box
