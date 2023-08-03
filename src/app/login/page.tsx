@@ -50,11 +50,6 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if (isSignedIn) router.push("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignedIn]);
-
-  useEffect(() => {
     if (mutationLogin.error) {
       console.log(mutationLogin.error);
     }

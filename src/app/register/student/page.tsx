@@ -51,6 +51,7 @@ export default function Major() {
       <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "center",
         }}
