@@ -18,93 +18,114 @@ import {
 import { useEffect } from "react";
 
 export default function SubjectList() {
-  const subjects = useAppSelector(SubjectSelectors.getSubjects());
-  const majors = useAppSelector(MajorSelectors.getMajors());
-  const instructors = useAppSelector(UserSelectors.getInstructors());
-
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        flex: 1,
+        margin: "auto",
       }}
     >
-      <Box>
-        <Typography
-          variant="h1"
-          sx={{
-            fontSize: 30,
-            fontWeight: "500",
-            my: 4,
-          }}
-        >
-          {subjects?.length ? "Môn học đang học" : "Bạn chưa đăng ký môn học nào"}
-        </Typography>
-      </Box>
       <Box
+        component="div"
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          // position: "absolute",
+          width: "800px",
+          height: "550px",
+          backgroundImage: `url(/static/images/degreeFrame.jpg)`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       >
-        {subjects.map((subject) => {
-          return (
-            <Card key={subject.subject_id} sx={{ width: 300, m: 2, border: "1px solid #fff" }}>
-              <CardMedia
-                sx={{ height: 140 }}
-                image={subject.thumbnail || "/static/images/software-development.jpg"}
-                title="green iguana"
-              />
-              <CardContent sx={{ paddingBottom: 0 }}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {subject.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ marginBottom: "15px" }}
-                >
-                  {subject.description}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: "16px" }}
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                >
-                  Số tiền: {subject.price}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: "16px" }}
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                >
-                  Số tín chỉ: {subject.number_of_credits}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: "16px" }}
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                >
-                  Đã đăng ký: {subject.number_students_studying || 0}
-                </Typography>
-              </CardContent>
-              <CardActions
-                sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-              >
-                <Button size="large" sx={{ textAlign: "center", fontSize: "17px" }}>
-                  Chi tiết
-                </Button>
-              </CardActions>
-            </Card>
-          );
-        })}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "60px 0",
+          }}
+        >
+          <Box component={"h1"} sx={{ marginBottom: 0, marginTop: 1, color: "#F7D000" }}>
+            CERTIFICATE
+          </Box>
+          <Box component={"h3"} sx={{ marginTop: 1, paddingBottom: "5px", color: "#F7D000" }}>
+            OF APPRECIATION
+            <Box
+              component={"h3"}
+              sx={{ margin: 1, marginBottom: "5px", border: "1px solid #F7D000" }}
+            ></Box>
+          </Box>
+          <Typography sx={{ fontWeight: "bold", fontSize: "18px", color: "#F7D000" }}>
+            This is to certify that
+          </Typography>
+          <Box component={"h1"} sx={{ color: "#90caf9" }}>
+            Lương Chi Thịnh
+          </Box>
+          <Typography>has successfully completed the course</Typography>
+          <Typography sx={{ color: "#F7D000" }}>Cấu trúc dữ liệu và giải thuật</Typography>
+          <Box
+            sx={{
+              marginTop: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+              width: "100%",
+              padding: "0 80px",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "200px",
+              }}
+            >
+              <Typography> TP.HCM, 12 October 2023</Typography>
+              <Typography> DATE</Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "200px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                component="div"
+                sx={{
+                  // position: "absolute",
+                  // marginRight: "16px",
+                  width: "100px",
+                  height: "100px",
+                  backgroundImage: `url(/static/images/goldMedal2.png)`,
+                  // backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                // marginRight: "19px",
+                width: "200px",
+              }}
+            >
+              <Typography>Chief executive officer</Typography>
+              <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                CHAU PHU THINH
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
