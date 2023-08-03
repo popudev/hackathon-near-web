@@ -52,9 +52,9 @@ export const Header = () => {
               SuperSchool
             </Typography>
 
-            {user?.role === Roles.Admin && <AdminToolbar />}
-            {user?.role === Roles.Instructor && <InstructorToolbar />}
-            {user?.role === Roles.Student && <StudentToolbar />}
+            {user?.role === Roles[Roles.Admin] && <AdminToolbar />}
+            {user?.role === Roles[Roles.Instructor] && <InstructorToolbar />}
+            {user?.role === Roles[Roles.Student] && <StudentToolbar />}
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {!user && (

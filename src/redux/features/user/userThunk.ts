@@ -1,15 +1,17 @@
 import { verifyJwtToken } from "@/libs/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import majorService, { MajorService } from "@/services/major";
-import subjectService from "@/services/subject";
 import { userService } from "@/services/user";
 
-export const UserThunk = {
+export const UserThunks = {
   getPayload: createAsyncThunk("user", async (accessToken: string) => {
     const result = await verifyJwtToken(accessToken);
     return result;
   }),
-  getInstructors: createAsyncThunk("instructor", async () => {
+  getStudents: createAsyncThunk("user/instructor", async () => {
+    const students = await userService.getAllStudents();
+    return students;
+  }),
+  getInstructors: createAsyncThunk("user/student", async () => {
     const instructors = await userService.getAllInstructor();
     return instructors;
   }),

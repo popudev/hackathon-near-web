@@ -1,102 +1,167 @@
 "use client";
-
+import { userService } from "@/services/user";
 import {
+  Backdrop,
   Box,
   Button,
-  Card,
+  CircularProgress,
   Grid,
-  Menu,
-  MenuItem,
+  Modal,
   Paper,
-  Table,
-  TableBody,
   TableCell,
-  TableHead,
   TableRow,
   TextField,
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
-import React, { useEffect, useState } from "react";
-// import { IconSettings } from "@tabler/icons";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Web3Thunks } from "@/redux/features/web3/web3Thunk";
-import { useRouter } from "next/navigation";
-
-// interface UserItemProps {
-//     student: User;
-//     selected: boolean;
-//     onCheck: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
-//     onIssue: (u: User) => void;
-//     onEdit: (u: User) => void;
-//     onDelete: (userId: String) => void;
-//   }
+import { useState } from "react";
+import { AlertDialogSlide } from "../AlertDialogSlide";
 
 export function StudentItem({ data }) {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: async (value) => {
+      const { username, password } = value;
+      setOpen(false);
+      setLoading(true);
+      await userService.activeStudent(data.user_id, username, password);
+      setLoading(false);
+      setOpenDialog(true);
+    },
+  });
+
   return (
-    <TableRow>
-      {/* <TableCell align="left" sx={{ display: "none" }}>
-          {user?.code}
-        </TableCell> */}
-      <TableCell align="center">{data.full_name}</TableCell>
-      <TableCell align="center" sx={{}}>
-        {data.email}
-      </TableCell>
-      <TableCell align="center">{data.phone}</TableCell>
-      <TableCell align="center">{data.date_of_birth}</TableCell>
-      <TableCell align="center">
-        <PopupState variant="popover" popupId="popup-menu">
-          {(popupState) => (
-            <React.Fragment>
+    <>
+      <TableRow key={data.user_id}>
+        <TableCell align="center">{data.full_name}</TableCell>
+        <TableCell align="center">{data.email}</TableCell>
+        <TableCell align="center">{data.phone}</TableCell>
+        <TableCell align="center">{data.date_of_birth}</TableCell>
+        <TableCell align="center">{data.national_identity_card}</TableCell>
+        <TableCell align="center">{data.username || "Chưa có"}</TableCell>
+        <TableCell align="center">
+          {data.active ? (
+            <Button disabled>Đã duyệt</Button>
+          ) : (
+            <Button onClick={() => setOpen(true)}>Duyệt</Button>
+          )}
+        </TableCell>
+      </TableRow>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <AlertDialogSlide
+        open={openDialog}
+        title={"Đã kích hoạt thành công"}
+        desrciption=""
+        onClose={() => setOpenDialog(false)}
+      />
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 1,
+        }}
+      >
+        <Paper
+          variant="outlined"
+          sx={{
+            padding: 4,
+            width: 550,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: 30,
+                fontWeight: "500",
+                textAlign: "center",
+                mb: 4,
+              }}
+            >
+              Cung cấp tài khoản cho sinh viên
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                width: 400,
+              }}
+            >
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Tài khoản"
+                  name="username"
+                  onChange={(e) => (formik.initialValues.username = e.target.value)}
+                  required
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Mật khẩu"
+                  name="password"
+                  required
+                  onChange={(e) => (formik.initialValues.password = e.target.value)}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+            <Box
+              sx={{
+                mt: 4,
+              }}
+            >
               <Button
                 variant="contained"
-                {...bindTrigger(popupState)}
-                // startIcon={<IconSettings />}
-                // endIcon={<ExpandMore />}
                 sx={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "8px 10px",
-                  minWidth: "0",
-                  bgcolor: "#EBEBEB",
-                  ":hover": {
-                    bgcolor: "#EBEBEB",
-                  },
-                  color: "black",
+                  marginRight: 4,
+                  fontSize: 18,
+                }}
+                onClick={() => formik.submitForm()}
+              >
+                Xác nhận
+              </Button>
+              <Button
+                onClick={() => setOpen(false)}
+                sx={{
+                  fontSize: 18,
                 }}
               >
-                {/* <IconSettings /> */}
-                <SettingsIcon />
+                Hủy
               </Button>
-              <Menu
-                {...bindMenu(popupState)}
-                sx={{ marginTop: "10px" }}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                transformOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                <MenuItem
-                  onClick={() => {}}
-                  sx={{ alignItems: "center", justifyContent: "center", minWidth: 170 }}
-                >
-                  Cập nhật
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {}}
-                  sx={{ alignItems: "center", justifyContent: "center", minWidth: 170 }}
-                >
-                  Xóa
-                </MenuItem>
-              </Menu>
-            </React.Fragment>
-          )}
-        </PopupState>
-      </TableCell>
-    </TableRow>
+            </Box>
+          </Box>
+        </Paper>
+      </Modal>
+    </>
   );
 }

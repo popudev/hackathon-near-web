@@ -4,7 +4,7 @@ import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
 import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { UserThunk } from "@/redux/features/user/userThunk";
+import { UserThunks } from "@/redux/features/user/userThunk";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   Box,
