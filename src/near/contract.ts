@@ -17,7 +17,7 @@ export class Contract {
       args: {
         major_id,
       },
-      // deposit: utils.format.parseNearAmount("0.01"), // Deposit 0.01 NEAR
+      deposit: utils.format.parseNearAmount("5"), // Deposit 5 NEAR
     });
   }
 
@@ -26,7 +26,18 @@ export class Contract {
       contractId: this.contractId,
       method: "register_instructor_user",
       args: {},
-      // deposit: utils.format.parseNearAmount("0.01"), // Deposit 0.01 NEAR
+      deposit: utils.format.parseNearAmount("10"), // Deposit 10 NEAR
+    });
+  }
+
+  async registerSubject(subject_id: string, price: number) {
+    return await this.wallet.callMethod({
+      contractId: this.contractId,
+      method: "register_subject",
+      args: {
+        subject_id,
+      },
+      deposit: utils.format.parseNearAmount(price.toString()),
     });
   }
 }

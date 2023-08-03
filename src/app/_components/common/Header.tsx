@@ -4,17 +4,39 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useAppSelector } from "@/redux/hooks";
 import { RoleType } from "@/services/major/types";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useState } from "react";
 
 export const Header = () => {
   const user = useAppSelector(UserSelectors.getUser());
   const { isSignedIn, wallet } = useAppSelector((state) => state.web3);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
+  const open2 = Boolean(anchorEl2);
+  const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
 
   return (
     <Box>
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "rgba(0,0,0,0.8)",
+          backgroundColor: "#000",
         }}
       >
         <Box>
@@ -34,26 +56,81 @@ export const Header = () => {
             {user?.role === RoleType.INSTRUCTOR && <InstructorToolbar />}
             {user?.role === RoleType.STUDENT && <StudentToolbar />}
 
-            {!user && (
-              <Button href={"/login"} color="inherit">
-                Đăng nhập
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {!user && (
+                <Button href={"/login"} sx={{ mr: 5 }}>
+                  Đăng nhập
+                </Button>
+              )}
+              {!!user && (
+                <Box>
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                    sx={{ mr: 5 }}
+                  >
+                    {(user.full_name as string) || "ADMIN"}
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    <MenuItem onClick={handleClose}>Hồ sơ</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      Đăng xuất
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              )}
+              <Button
+                id="basic-button-2"
+                aria-controls={open ? "basic-menu-2" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                startIcon={<AccountBalanceWalletIcon />}
+                color="inherit"
+                onClick={(e) => {
+                  if (!isSignedIn) return wallet?.signIn();
+                  handleClick2(e);
+                }}
+              >
+                {isSignedIn ? wallet?.accountId : "Kết nối ví"}
               </Button>
-            )}
-
-            {!!user && (
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{ marginRight: "10px" }}>{user.full_name as string}</Box>
-                <Button
-                  startIcon={<AccountBalanceWalletIcon />}
-                  color="inherit"
-                  onClick={() => {
-                    if (!isSignedIn) wallet?.signIn();
+              <Menu
+                id="basic-menu-2"
+                anchorEl={anchorEl2}
+                open={open2}
+                onClose={handleClose2}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
+              >
+                <MenuItem
+                  onClick={(e) => {
+                    handleClose2();
+                    wallet?.signOut();
                   }}
                 >
-                  {isSignedIn ? wallet?.accountId : "Kết nối ví"}
-                </Button>
-              </Box>
-            )}
+                  Hủy kết nối với ví
+                </MenuItem>
+              </Menu>
+            </Box>
           </Toolbar>
         </Box>
       </AppBar>

@@ -1,8 +1,11 @@
 "use client";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
+import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
+import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { useAppSelector } from "@/redux/hooks";
+import { UserThunk } from "@/redux/features/user/userThunk";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   Box,
   Button,
@@ -12,6 +15,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 
 export default function SubjectList() {
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
@@ -66,14 +70,14 @@ export default function SubjectList() {
                 >
                   {subject.description}
                 </Typography>
-                {/* <Typography
+                <Typography
                   sx={{ fontSize: "16px" }}
                   gutterBottom
                   variant="h5"
                   component="div"
                 >
-                  Học phí: {subject.price} NEAR
-                </Typography> */}
+                  Số tiền: {subject.price}
+                </Typography>
                 <Typography
                   sx={{ fontSize: "16px" }}
                   gutterBottom
@@ -88,17 +92,13 @@ export default function SubjectList() {
                   variant="h5"
                   component="div"
                 >
-                  Sinh viên đã đăng ký: {subject.number_students_studying || 0}
+                  Đã đăng ký: {subject.number_students_studying || 0}
                 </Typography>
               </CardContent>
               <CardActions
                 sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
               >
-                <Button
-                  href={`/student/subjects/${subject.subject_id}`}
-                  size="large"
-                  sx={{ textAlign: "center", fontSize: "17px" }}
-                >
+                <Button size="large" sx={{ textAlign: "center", fontSize: "17px" }}>
                   Chi tiết
                 </Button>
               </CardActions>
