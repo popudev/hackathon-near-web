@@ -1,12 +1,12 @@
 export type Major = {
-  major_id: string;
+  major_id?: string;
   thumbnail?: string;
   name: string;
   description: string;
   number_of_credits_required: number;
-  number_students: number;
-  created_at: number;
-  updated_at: number;
+  number_students?: number;
+  created_at?: number;
+  updated_at?: number;
 };
 
 export type Subject = {
@@ -34,9 +34,9 @@ export type Score = {
 };
 
 export enum RoleType {
-  ADMIN = "ADMIN",
-  STUDENT = "STUDENT",
-  INSTRUCTOR = "INSTRUCTOR",
+  ADMIN = "Admin",
+  STUDENT = "Student",
+  INSTRUCTOR = "Instructor",
 }
 export type CreateMajor = {
   thumbnail: string;

@@ -8,5 +8,9 @@ interface PartialUserState {
 const userStateSelector = (state: PartialUserState) => state.user;
 
 export const UserSelectors = {
-  getInstructors: () => createSelector(userStateSelector, (user) => user.instructors),
+  getUser: () => createSelector(userStateSelector, ({ payload }) => payload),
+  getInstructors: () =>
+    createSelector(userStateSelector, (user) =>
+      user.instructors.filter((instructor) => instructor.active)
+    ),
 };

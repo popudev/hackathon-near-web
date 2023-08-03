@@ -9,8 +9,9 @@ import { useCallback, useState } from "react";
 interface Props {
   open: boolean;
   onClose: () => void;
+  setLoadingScreen: (arg: boolean) => void;
 }
-export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
+export const MajorForm: React.FC<Props> = ({ open, onClose, setLoadingScreen }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useAppDispatch();
   const formik = useFormik({
@@ -22,13 +23,23 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
     },
     onSubmit: (values) => {
       (async () => {
+        setLoadingScreen(true);
         const major = await majorService.create({
           thumbnail: values.thumbail,
           name: values.name,
           description: values.description,
           number_of_credits_required: values.number_of_credits_required,
         });
-        dispatch(MajorActions.addMajor(major));
+        dispatch(
+          MajorActions.addMajor({
+            thumbnail: values.thumbail,
+            name: values.name,
+            description: values.description,
+            number_of_credits_required: values.number_of_credits_required,
+          })
+        );
+        onClose();
+        setLoadingScreen(false);
       })();
     },
   });
@@ -58,7 +69,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: "500",
               textAlign: "center",
               mb: 4,
@@ -111,7 +122,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <p>Kéo và thả tệp ảnh mô tả vào đây</p>
               </Grid>
@@ -124,7 +135,7 @@ export const MajorForm: React.FC<Props> = ({ open, onClose }) => {
                   />
                 )}
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box
             sx={{

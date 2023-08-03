@@ -1,8 +1,11 @@
 "use client";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
+import { MajorThunks } from "@/redux/features/major/majorThunk";
 import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
+import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { useAppSelector } from "@/redux/hooks";
+import { UserThunk } from "@/redux/features/user/userThunk";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   Box,
   Button,
@@ -12,19 +15,12 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { utils } from "near-api-js";
+import { useEffect } from "react";
 
-export default function SubjectRegister() {
+export default function SubjectList() {
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
   const majors = useAppSelector(MajorSelectors.getMajors());
   const instructors = useAppSelector(UserSelectors.getInstructors());
-  const { wallet, isSignedIn, contract } = useAppSelector((state) => state.web3);
-
-  const handleRegisterSubject = async (subject_id: string, price: number) => {
-    if (!isSignedIn) return wallet?.signIn();
-
-    await contract?.registerSubject(subject_id, price);
-  };
 
   return (
     <Box
@@ -45,7 +41,7 @@ export default function SubjectRegister() {
             my: 4,
           }}
         >
-          {subjects?.length ? "Đăng ký môn học" : "Chưa có môn học nào được mở"}
+          {subjects?.length ? "Môn học đang học" : "Bạn chưa đăng ký môn học nào"}
         </Typography>
       </Box>
       <Box
@@ -75,12 +71,12 @@ export default function SubjectRegister() {
                   {subject.description}
                 </Typography>
                 <Typography
-                  sx={{ fontSize: "16px", wordBreak: "break-all" }}
+                  sx={{ fontSize: "16px" }}
                   gutterBottom
                   variant="h5"
                   component="div"
                 >
-                  Học phí: {subject.price} NEAR
+                  Số tiền: {subject.price}
                 </Typography>
                 <Typography
                   sx={{ fontSize: "16px" }}
@@ -102,14 +98,8 @@ export default function SubjectRegister() {
               <CardActions
                 sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
               >
-                <Button
-                  size="large"
-                  sx={{ textAlign: "center", fontSize: "17px" }}
-                  onClick={() =>
-                    handleRegisterSubject(subject.subject_id || "", subject.price)
-                  }
-                >
-                  Đăng ký
+                <Button size="large" sx={{ textAlign: "center", fontSize: "17px" }}>
+                  Chi tiết
                 </Button>
               </CardActions>
             </Card>

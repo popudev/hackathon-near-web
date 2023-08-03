@@ -7,6 +7,7 @@ export type CreateUserDto = {
   national_identity_card: string;
   national_identity_card_date: string;
 };
+
 export interface Instructor {
   user_id: string;
   username: string;

@@ -6,11 +6,11 @@ import { UserMetadata } from "types/entities";
 import { DecodeToken } from "types";
 import { Roles } from "types";
 const config = {
-  requiredToken: ["/", "/register", "/subjects", "/major"],
+  requiredToken: ["/hello"],
   requiredRole: {
-    [Roles[Roles.Admin]]: { paths: ["/admin", "/major"], redirect: "/major" },
-    [Roles[Roles.Instructor]]: { paths: ["/instructor"], redirect: "/instructor" },
-    [Roles[Roles.Student]]: { paths: ["/student"], redirect: "/student" },
+    [Roles[Roles.Admin]]: { paths: ["/admin"], redirect: "/" },
+    [Roles[Roles.Instructor]]: { paths: ["/instructor"], redirect: "/" },
+    [Roles[Roles.Student]]: { paths: ["/student"], redirect: "/" },
   },
 };
 // This function can be marked `async` if using `await` inside

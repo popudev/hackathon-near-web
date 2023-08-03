@@ -1,9 +1,7 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { UserMetadata } from "types/entities";
 import { JWTPayload } from "jose";
-import { Major } from "@/services/major/types";
-import { Subject } from "@/services/subject/type";
 import { Instructor } from "@/services/user/types";
 import { UserThunk } from "./userThunk";
 import { DecodeToken } from "types";
