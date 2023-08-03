@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 import { UserMetadata } from "types/entities";
 import { JWTPayload } from "jose";
-import { Instructor } from "@/services/user/types";
-import { UserThunk } from "./userThunk";
+import { UserThunks } from "./userThunk";
 import { DecodeToken } from "types";
 
 export type UserState = {
-  instructors: Instructor[];
+  students: UserMetadata[];
+  instructors: UserMetadata[];
   payload: DecodeToken<JWTPayload, UserMetadata>;
 };
 
 const initialState: UserState = {
   payload: null,
   instructors: [],
+  students: [],
 };
 
 export const user = createSlice({
@@ -26,13 +26,16 @@ export const user = createSlice({
     },
   },
   extraReducers: (build) => {
-    build.addCase(UserThunk.getPayload.fulfilled, (state, action) => {
+    build.addCase(UserThunks.getPayload.fulfilled, (state, action) => {
       if (action.payload) {
         state.payload = action.payload;
       }
     });
-    build.addCase(UserThunk.getInstructors.fulfilled, (state, action) => {
+    build.addCase(UserThunks.getInstructors.fulfilled, (state, action) => {
       state.instructors = action.payload;
+    });
+    build.addCase(UserThunks.getStudents.fulfilled, (state, action) => {
+      state.students = action.payload;
     });
   },
 });

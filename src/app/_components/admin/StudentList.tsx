@@ -26,16 +26,10 @@ import { useRouter } from "next/navigation";
 import { StudentItem } from "./StudentItem";
 import { userService } from "@/services/user";
 import { UserMetadata } from "types/entities";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
 
 export default function StudentList() {
-  const [studentList, setStudentList] = useState<UserMetadata[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const studentResult = await userService.getAllStudents();
-      setStudentList(studentResult);
-    })();
-  }, []);
+  const students = useAppSelector(UserSelectors.getStudents());
 
   return (
     <Box>
@@ -48,21 +42,15 @@ export default function StudentList() {
                 <TableCell align="center">Email</TableCell>
                 <TableCell align="center">Số điện thoại</TableCell>
                 <TableCell align="center">Ngày sinh</TableCell>
-                <TableCell align="center">Thao tác</TableCell>
+                <TableCell align="center">CMND/CCCD</TableCell>
+                <TableCell align="center">Tài khoản</TableCell>
+                <TableCell align="center">Trạng thái</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {studentList.map((student) => (
+              {students.map((student) => (
                 <StudentItem key={student.user_id} data={student} />
               ))}
-              {/* gegwsgegeg */}
-              {/* <NewsManagementItem
-            key={news.id}
-            news={news}
-            onDelete={handleRemoveNews}
-            onDisable={handleDisableNews}
-            onUpdateNewsClick={handleUpdateNewsClick}
-          /> */}
             </TableBody>
           </Table>
         </Box>

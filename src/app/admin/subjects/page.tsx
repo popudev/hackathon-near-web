@@ -18,7 +18,7 @@ import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { SubjectForm } from "../../_components/SubjectForm";
 import { SelectedForm } from "../../_components/SelectedForm";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { UserThunk } from "@/redux/features/user/userThunk";
+import { UserThunks } from "@/redux/features/user/userThunk";
 import AddIcon from "@mui/icons-material/Add";
 import { utils } from "near-api-js";
 import { Subject } from "@/services/subject/type";
@@ -38,15 +38,9 @@ export default function Subject() {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(SubjectThunks.getSubjects());
-    dispatch(MajorThunks.getMajors());
-    dispatch(UserThunk.getInstructors());
-  }, [dispatch]);
-
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
   const majors = useAppSelector(MajorSelectors.getMajors());
-  const instructors = useAppSelector(UserSelectors.getInstructors());
+  const instructors = useAppSelector(UserSelectors.getInstructorsActive());
 
   useEffect(() => {
     setSubjectList(subjects);
@@ -66,7 +60,7 @@ export default function Subject() {
       if (!subject.subject_id) return;
       const { subject_id, price } = subject;
       setOpen(true);
-      dispatch(UserThunk.assignSubject({ instructor_id, subject_id, price })).then(() => {
+      dispatch(UserThunks.assignSubject({ instructor_id, subject_id, price })).then(() => {
         setOpen(false);
         hideAssign();
         setOpenDialog(true);

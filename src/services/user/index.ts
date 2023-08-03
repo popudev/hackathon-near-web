@@ -1,6 +1,6 @@
 import instance from "@/axiosConfig";
 import { UserPayload } from "types/responses";
-import { CreateUserDto, Instructor } from "./types";
+import { CreateUserDto } from "./types";
 import { UserMetadata } from "types/entities";
 
 export class UserService {
@@ -12,6 +12,22 @@ export class UserService {
     return instance.post<CreateUserDto, any>("/user/register-instructor", createUser);
   }
 
+  async activeStudent(user_id: string, username: string, password: string) {
+    return instance.put<CreateUserDto, any>("/user/active/student", {
+      user_id,
+      username,
+      password,
+    });
+  }
+
+  async activeInstructor(user_id: string, username: string, password: string) {
+    return instance.put<CreateUserDto, any>("/user/active/instructor", {
+      user_id,
+      username,
+      password,
+    });
+  }
+
   async signIn(username, password) {
     type U = UserPayload;
     return instance<U, U>({
@@ -20,16 +36,17 @@ export class UserService {
       data: { username, password },
     });
   }
+
   async getAllInstructor() {
-    return instance.get<any, Instructor[]>("/user/instructor");
+    return instance.get<any, UserMetadata[]>("/user/instructor");
   }
+
   async getAllStudents() {
-    return instance.get<any, UserMetadata[]>("/user");
+    return instance.get<any, UserMetadata[]>("/user/student");
   }
 
   async assignSubject(instructor_id: string, subject_id: string, price: number) {
     const assignInstructorDto = { instructor_id, subject_id, price };
-    console.log("assignInstructorDto: ", assignInstructorDto);
     instance.post("/user/instructor/assignment", assignInstructorDto);
   }
 }
