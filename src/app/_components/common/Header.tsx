@@ -2,11 +2,11 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useAppSelector } from "@/redux/hooks";
-import { RoleType } from "@/services/major/types";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
+import { Roles } from "types";
 
 export const Header = () => {
   const user = useAppSelector(UserSelectors.getUser());
@@ -52,9 +52,9 @@ export const Header = () => {
               SuperSchool
             </Typography>
 
-            {user?.role === RoleType.ADMIN && <StudentToolbar />}
-            {user?.role === RoleType.INSTRUCTOR && <InstructorToolbar />}
-            {user?.role === RoleType.STUDENT && <StudentToolbar />}
+            {user?.role === Roles.Admin && <AdminToolbar />}
+            {user?.role === Roles.Instructor && <InstructorToolbar />}
+            {user?.role === Roles.Student && <StudentToolbar />}
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {!user && (
