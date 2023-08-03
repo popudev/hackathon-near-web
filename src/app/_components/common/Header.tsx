@@ -83,7 +83,7 @@ export function Header({ role, isLogin = true }) {
                 <Button sx={{ margin: "0 5px" }} href={"/create-subject"} color="inherit">
                   Tạo môn học
                 </Button>
-                <Button sx={{ margin: "0 5px" }} href={"students"} color="inherit">
+                <Button sx={{ margin: "0 5px" }} href={"/admin/students"} color="inherit">
                   Quản lý sinh viên
                 </Button>
                 <Button sx={{ margin: "0 5px" }} href={"/instructors"} color="inherit">
