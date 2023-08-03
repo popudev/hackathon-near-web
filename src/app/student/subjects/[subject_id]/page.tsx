@@ -1,4 +1,7 @@
 "use client";
+import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
+import { useAppSelector } from "@/redux/hooks";
 import {
   Box,
   Button,
@@ -9,13 +12,14 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 
-import { useAppSelector } from "@/redux/hooks";
-import { UserSelectors } from "@/redux/features/user/userSelectors";
-
-export default function Student() {
+export default function Page({ params }: { params: { subject_id: string } }) {
   const instructors = useAppSelector(UserSelectors.getInstructors());
+  const subject = useAppSelector(SubjectSelectors.getSubjectById(params.subject_id));
+
+  if (!subject) return <></>;
 
   return (
     <Box
@@ -25,6 +29,8 @@ export default function Student() {
       }}
     >
       <Container maxWidth={false}>
+        <Typography sx={{ fontSize: 30 }}>Môn học: {subject.title}</Typography>
+
         <Box>
           <Card sx={{ mt: 3, boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}>
             <Box sx={{ position: "relative" }}>
@@ -35,9 +41,6 @@ export default function Student() {
                     <TableCell align="center">Email</TableCell>
                     <TableCell align="center">Số điện thoại</TableCell>
                     <TableCell align="center">Ngày sinh</TableCell>
-                    <TableCell align="center">CMND/CCCD</TableCell>
-                    <TableCell align="center">Tài khoản</TableCell>
-                    <TableCell align="center">Trạng thái</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -48,19 +51,6 @@ export default function Student() {
                         <TableCell align="center">{instructor.email}</TableCell>
                         <TableCell align="center">{instructor.phone}</TableCell>
                         <TableCell align="center">{instructor.date_of_birth}</TableCell>
-                        <TableCell align="center">
-                          {instructor.national_identity_card}
-                        </TableCell>
-                        <TableCell align="center">
-                          {instructor.username || "Chưa có"}
-                        </TableCell>
-                        <TableCell align="center">
-                          {instructor.active ? (
-                            <Button disabled>Đã duyệt</Button>
-                          ) : (
-                            <Button>Duyệt</Button>
-                          )}
-                        </TableCell>
                       </TableRow>
                     );
                   })}
