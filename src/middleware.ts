@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { verifyJwtToken } from "@/libs/auth";
 
-const requiredToken = ["/", "/register", "/major"];
+const requiredToken = ["/register", "/major"];
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const cookie = request.cookies.get("accessToken");
