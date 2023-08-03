@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Button, Card, Container, Fab } from "@mui/material";
+import { Backdrop, Box, Button, Card, CircularProgress, Container, Fab } from "@mui/material";
 import { MajorForm } from "../../_components/MajorForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
@@ -21,11 +21,17 @@ import { UserSelectors } from "@/redux/features/user/userSelectors";
 import { UserThunk } from "@/redux/features/user/userThunk";
 import AddIcon from "@mui/icons-material/Add";
 import { utils } from "near-api-js";
+import { AlertDialogSlide } from "@/app/_components/AlertDialogSlide";
+import { SubjectActions } from "@/redux/features/subject/subjectSlice";
+import { UserActions } from "@/redux/features/user/userSlice";
+import { UserService } from "@/services/user";
 
 export default function Subject() {
   const [visibleForm, setVisibleForm] = useState(false);
   const hideForm = () => setVisibleForm(false);
   const showForm = () => setVisibleForm(true);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -41,18 +47,26 @@ export default function Subject() {
 
   const [visibleAssign, setVisibleAssign] = useState(false);
   const hideAssign = () => setVisibleAssign(false);
-  const showAssign = (subject_id: string) => {
-    setSubjectAssignId(subject_id);
-    setVisibleAssign(true);
-  };
+  const showAssign = () => setVisibleAssign(true);
 
-  const handleAssginInstructor = (id: string) => {
-    const subject_id = subjectAssignId;
-    const instructor_id = id;
-    // them instructor vao` mon hoc
-  };
+  const [subject, setSubject] = useState<{ subject_id: string; price: number }>();
 
-  const [subjectAssignId, setSubjectAssignId] = useState("");
+  const [title, setTitle] = useState("");
+
+  const handleAssginInstructor = useCallback(
+    (instructor_id: string) => {
+      if (!subject) return;
+      const { subject_id, price } = subject;
+      setOpen(true);
+      dispatch(UserThunk.assignSubject({ instructor_id, subject_id, price })).then(() => {
+        setOpen(false);
+        hideAssign();
+        setOpenDialog(true);
+        setTitle("Bạn đã phân công giảng dạy cho giảng viên thàn công");
+      });
+    },
+    [subject]
+  );
 
   return (
     <Box
@@ -67,7 +81,7 @@ export default function Subject() {
           open={visibleAssign}
           items={instructors.map((u) => ({ key: u.user_id, value: u.full_name }))}
           onClose={hideAssign}
-          onConfirm={handleAssginInstructor}
+          onConfirm={(id) => handleAssginInstructor(id)}
         />
 
         <SubjectForm open={visibleForm} onClose={hideForm} majors={majors} />
@@ -128,7 +142,14 @@ export default function Subject() {
                         {row.instructor_id !== null ? (
                           row.instructor_id
                         ) : (
-                          <Button onClick={() => showAssign(row.subject_id)}>Phân công</Button>
+                          <Button
+                            onClick={() => {
+                              showAssign();
+                              setSubject({ subject_id: row.subject_id, price: row.price });
+                            }}
+                          >
+                            Phân công
+                          </Button>
                         )}
                       </TableCell>
                     </TableRow>
@@ -138,6 +159,18 @@ export default function Subject() {
             </Box>
           </Card>
         </Box>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <AlertDialogSlide
+          open={openDialog}
+          title={title}
+          desrciption=""
+          onClose={() => setOpenDialog(false)}
+        />
       </Container>
     </Box>
   );
