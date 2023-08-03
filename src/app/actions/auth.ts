@@ -1,5 +1,5 @@
 "use server";
-import { verifyJwtToken } from "@/libs/auth";
+
 import { cookies } from "next/headers";
 
 export async function signIn(accessToken: string) {
@@ -7,8 +7,6 @@ export async function signIn(accessToken: string) {
     secure: true,
     httpOnly: true,
   });
-  const roles = await verifyJwtToken(accessToken);
-  return roles;
 }
 
 export async function getToken() {

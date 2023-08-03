@@ -61,7 +61,6 @@ export default function Login() {
         const { accessToken } = mutationLogin.data;
         signIn(accessToken);
         dispatch(UserThunk.getPayload(accessToken));
-
         router.push("/");
       }
     }

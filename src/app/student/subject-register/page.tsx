@@ -105,7 +105,9 @@ export default function SubjectRegister() {
                 <Button
                   size="large"
                   sx={{ textAlign: "center", fontSize: "17px" }}
-                  onClick={() => handleRegisterSubject(subject.subject_id, subject.price)}
+                  onClick={() =>
+                    handleRegisterSubject(subject.subject_id || "", subject.price)
+                  }
                 >
                   Đăng ký
                 </Button>
