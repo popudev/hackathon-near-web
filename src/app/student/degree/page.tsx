@@ -19,9 +19,22 @@ import { useEffect } from "react";
 
 export default function Page() {
   const user = useAppSelector(UserSelectors.getUser());
+  console.log("user: ", user);
   const majors = useAppSelector(MajorSelectors.getMajors());
   const major = majors.find((m) => m.major_id === user?.major_id);
 
   if (!user) return <></>;
-  return <Box></Box>;
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Typography>
+        {user.total_credit}/{major?.number_of_credits_required}
+      </Typography>
+    </Box>
+  );
 }
