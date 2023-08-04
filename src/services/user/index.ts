@@ -49,5 +49,25 @@ export class UserService {
     const assignInstructorDto = { instructor_id, subject_id, price };
     instance.post("/user/instructor/assignment", assignInstructorDto);
   }
+
+  async getStudentBySubjectId(subject_id: string): Promise<[UserMetadata]> {
+    return instance.get("/user/sid", {
+      params: {
+        subject_id,
+      },
+    });
+  }
+
+  async createScore(subject_id: string, student_id: string, score: number) {
+    return instance({
+      url: "/user/instructor/create-score",
+      method: "POST",
+      data: {
+        subject_id,
+        student_id,
+        score,
+      },
+    });
+  }
 }
 export const userService = new UserService();
