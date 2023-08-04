@@ -1,6 +1,7 @@
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { MajorActions, major } from "@/redux/features/major/majorSlice";
 import { MajorThunks } from "@/redux/features/major/majorThunk";
+import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
 import { SubjectActions } from "@/redux/features/subject/subjectSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import majorService, { MajorService } from "@/services/major";
@@ -33,6 +34,7 @@ interface Props {
 export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useAppDispatch();
+  const subjects = useAppSelector(SubjectSelectors.getSubjects());
 
   const formik = useFormik({
     initialValues: {
@@ -174,16 +176,24 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Mã môn tiên quyết"
-                name="prerequisite_subject_id"
-                onChange={formik.handleChange}
-                required
-                type="text"
-                value={formik.values.prerequisite_subject_id}
-                variant="outlined"
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label-1">Môn tiên quyết</InputLabel>
+                <Select
+                  value={formik.values.prerequisite_subject_id}
+                  labelId="demo-simple-select-label-1"
+                  label="Môn tiên quyết"
+                  placeholder="Môn tiên quyết"
+                  name="prerequisite_subject_id"
+                  onChange={formik.handleChange}
+                  fullWidth
+                >
+                  {subjects.map((subject) => (
+                    <MenuItem value={subject.subject_id} key={subject.subject_id}>
+                      {subject.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
