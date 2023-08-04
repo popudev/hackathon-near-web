@@ -47,36 +47,16 @@ export async function middleware(request: NextRequest) {
       const info = requiredRole[role];
       //console.log(paths, request.nextUrl.pathname);
       if (info.paths) {
-        for (const path of info.paths) {
-          if (request.nextUrl.pathname.startsWith(path)) {
-            //console.log("ok");
-
-            return NextResponse.next();
-          } else {
-            //console.log("ko");
-            return NextResponse.redirect(new URL(info.redirect, request.url));
-            //throw new Error(info.redirect);
-            // return NextResponse.redirect(new URL("/x", request.url));
-          }
+        // for (const path of info.paths) {
+        const isCorrect = (path: string) => request.nextUrl.pathname.startsWith(path);
+        if (info.paths.some(isCorrect)) {
+          return NextResponse.next();
+        } else {
+          return NextResponse.redirect(new URL(info.redirect, request.url));
         }
       } else {
         throw new Error("Invalid role or path");
       }
-
-      // requiredRole.forEach((_role, paths) => {
-      //   // console.log();
-      //   switch (role) {
-      //     case Roles[Roles.Admin]:
-      //       // if(_role[Roles.Admin]?.includes(request.nextUrl.pathname))
-      //       console.log(paths);
-      //       return;
-      //     case Roles[Roles.Instructor]:
-      //       break;
-      //     case Roles[Roles.Student]:
-      //     default:
-      //       break;
-      //   }
-      // });
     }
 
     // INFO: case has token when go to login  => redirect to home
