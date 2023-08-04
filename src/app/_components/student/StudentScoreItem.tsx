@@ -12,9 +12,10 @@ interface Props {
 export const StudentScoreItem: React.FC<Props> = ({ data }) => {
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
   const instructors = useAppSelector(UserSelectors.getInstructors());
+  console.log("instructors: ", instructors);
 
   const subject = subjects.find((s) => s.subject_id === data.subject_id);
-  const instructor = instructors.find((s) => s.user_id === data.instuctor_id);
+  const instructor = instructors.find((s) => s.user_id === data.instructor_id);
 
   return (
     <TableRow>

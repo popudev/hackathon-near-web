@@ -87,7 +87,7 @@ export default function Student() {
                           {instructor.username || "Chưa có"}
                         </TableCell>
                         <TableCell align="center">
-                          {!instructor.active ? (
+                          {instructor.active ? (
                             <Button disabled>Đã duyệt</Button>
                           ) : (
                             <Button
