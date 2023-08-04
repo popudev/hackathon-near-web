@@ -64,7 +64,7 @@ export default function Subject() {
         setOpen(false);
         hideAssign();
         setOpenDialog(true);
-        setTitle("Bạn đã phân công giảng dạy cho giảng viên thàn công");
+        setTitle("Bạn đã phân công giảng dạy cho giảng viên thành công");
       });
     },
     [subject]
@@ -117,16 +117,16 @@ export default function Subject() {
                     <TableCell align="center">Mô tả</TableCell>
                     <TableCell align="center">Môn tiên quyết</TableCell>
                     <TableCell align="center">Số tín chỉ</TableCell>
-                    <TableCell align="center">Học phí</TableCell>
+                    <TableCell align="center">Học phí (NEAR)</TableCell>
                     <TableCell align="center">Tổng số học sinh</TableCell>
                     <TableCell align="center">Giảng viên giảng dạy</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {subjectList.map((row) => (
+                  {subjectList.map((row, index) => (
                     <TableRow
-                      key={row.title}
+                      key={row.title + index}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}

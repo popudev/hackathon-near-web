@@ -1,7 +1,16 @@
 "use client";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
@@ -11,11 +20,13 @@ import { UserThunks } from "@/redux/features/user/userThunk";
 import { userService } from "@/services/user";
 
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const mutationLogin = useMutation({
     mutationFn: (data: { username: string; password: string }) => {
       const { username, password } = data;
+      setLoading(true);
       return userService.signIn(username, password);
     },
   });
@@ -146,6 +157,12 @@ export default function Login() {
           </Box>
         </Box>
       </Paper>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }

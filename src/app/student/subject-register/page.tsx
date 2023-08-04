@@ -13,11 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { utils } from "near-api-js";
+import { useEffect } from "react";
 
 export default function SubjectRegister() {
   const subjects = useAppSelector(SubjectSelectors.getSubjects());
-  const majors = useAppSelector(MajorSelectors.getMajors());
-  const instructors = useAppSelector(UserSelectors.getInstructors());
   const { wallet, isSignedIn, contract } = useAppSelector((state) => state.web3);
 
   const handleRegisterSubject = async (subject_id: string, price: number) => {
@@ -25,6 +24,8 @@ export default function SubjectRegister() {
 
     await contract?.registerSubject(subject_id, price);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <Box
