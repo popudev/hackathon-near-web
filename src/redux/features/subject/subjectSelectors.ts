@@ -13,6 +13,8 @@ export const SubjectSelectors = {
     createSelector(subjectStateSelector, (subject) => subject.subjectsByUserId),
   getSubjectById: (subject_id: string) =>
     createSelector(subjectStateSelector, (subject) =>
-      subject.subjects.find((s) => s.subject_id === subject_id)
+      [...subject.subjects, ...subject.subjectsByUserId].find(
+        (s) => s.subject_id === subject_id
+      )
     ),
 };
