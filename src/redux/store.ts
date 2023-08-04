@@ -4,6 +4,7 @@ import { major } from "./features/major/majorSlice";
 import { subject } from "./features/subject/subjectSlice";
 import { score } from "./features/score/scoreSlice";
 import { user } from "./features/user/userSlice";
+import { modal } from "./features/modal/modalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     subject: subject.reducer,
     score: score.reducer,
     user: user.reducer,
+    modal: modal.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
