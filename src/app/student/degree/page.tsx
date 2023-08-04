@@ -48,6 +48,8 @@ export default function Page() {
   // }, [contract, isSignedIn]);
 
   if (!user) return <></>;
+
+  const isEnable = user.total_credit >= (major?.number_of_credits_required || 0);
   return degree ? (
     <DegreeTemplate degree={degree} />
   ) : (
@@ -75,7 +77,7 @@ export default function Page() {
         sx={{
           fontSize: 20,
         }}
-        disabled={user.total_credit != major?.number_of_credits_required}
+        disabled={!isEnable}
       >
         NHẬN BẰNG CẤP
       </Button>
