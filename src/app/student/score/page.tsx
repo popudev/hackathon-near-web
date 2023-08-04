@@ -9,11 +9,21 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { StudentScoreItem } from "@/app/_components/student/StudentScoreItem";
+import { ScoreSelectors } from "@/redux/features/score/scoreSelectors";
+import { useEffect } from "react";
+import { ScoreThunks } from "@/redux/features/score/scoreThunk";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
 
 export default function ScoreList() {
-  const scores = useAppSelector((state) => state.score.scores);
+  const scores = useAppSelector(ScoreSelectors.getScores());
+  const user = useAppSelector(UserSelectors.getUser());
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (user) dispatch(ScoreThunks.getScoreByUserId(user.user_id));
+  }, [user]);
 
   return (
     <Box
