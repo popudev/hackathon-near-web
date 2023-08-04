@@ -37,8 +37,8 @@ export default function Student() {
       username: "",
       password: "",
     },
-    onSubmit: async (value) => {
-      const { user_id, username, password } = value;
+    onSubmit: async () => {
+      const { user_id, username, password } = formik.initialValues;
       setOpen(false);
       setLoading(true);
       await userService.activeInstructor(user_id, username, password);
@@ -87,12 +87,12 @@ export default function Student() {
                           {instructor.username || "Chưa có"}
                         </TableCell>
                         <TableCell align="center">
-                          {instructor.active ? (
+                          {!instructor.active ? (
                             <Button disabled>Đã duyệt</Button>
                           ) : (
                             <Button
                               onClick={() => {
-                                formik.setFieldValue("user_id", instructor.user_id);
+                                formik.initialValues.user_id = instructor.user_id;
                                 setOpen(true);
                               }}
                             >

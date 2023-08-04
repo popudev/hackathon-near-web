@@ -1,8 +1,9 @@
 "use client";
 import { MajorSelectors } from "@/redux/features/major/majorSelectors";
 import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
+import { SubjectThunks } from "@/redux/features/subject/subjectThunk";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   Box,
   Button,
@@ -12,11 +13,16 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 
 export default function SubjectList() {
-  const subjects = useAppSelector(SubjectSelectors.getSubjects());
-  const majors = useAppSelector(MajorSelectors.getMajors());
-  const instructors = useAppSelector(UserSelectors.getInstructors());
+  const subjects = useAppSelector(SubjectSelectors.getSubjectsByUser());
+  const user = useAppSelector(UserSelectors.getUser());
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user) dispatch(SubjectThunks.getSubjectsByUserId(user.user_id));
+  }, [user]);
 
   return (
     <Box

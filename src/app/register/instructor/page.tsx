@@ -13,12 +13,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+
+import { useEffect, useState } from "react";
 
 export default function Register() {
   const { contract, isSignedIn, wallet } = useAppSelector((state) => state.web3);
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const searchParams = useSearchParams();
+
+  const transactionHashes = searchParams.get("transactionHashes");
+
+  useEffect(() => {
+    if (transactionHashes) setOpenDialog(true);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -32,12 +41,27 @@ export default function Register() {
     onSubmit: async (values) => {
       if (!isSignedIn) return wallet?.signIn();
 
+      const {
+        full_name,
+        date_of_birth,
+        email,
+        national_identity_card,
+        national_identity_card_date,
+        phone,
+      } = values;
+
       setOpen(true);
 
       if (wallet && wallet.accountId && contract) {
+        wallet.getTransactionResult;
         await userService.registerInstructor({
           user_id: wallet.accountId,
-          ...values,
+          full_name,
+          date_of_birth,
+          email,
+          national_identity_card,
+          national_identity_card_date,
+          phone,
         });
         await contract.registerInstructor();
         setOpenDialog(true);

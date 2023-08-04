@@ -47,27 +47,36 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
       major_id: "",
     },
     onSubmit: (values) => {
+      const {
+        thumbnail,
+        description,
+        major_id,
+        number_of_credits,
+        prerequisite_subject_id,
+        price,
+        title,
+      } = values;
       (async () => {
         setLoading(true);
         const subject = await subjectService.create({
-          thumbnail: values.thumbnail,
-          title: values.title,
-          description: values.description,
-          number_of_credits: values.number_of_credits,
-          prerequisite_subject_id: values.prerequisite_subject_id,
-          price: values.price, // price NEAR
-          major_id: values.major_id,
+          thumbnail: thumbnail,
+          title: title,
+          description: description,
+          number_of_credits: number_of_credits,
+          prerequisite_subject_id: prerequisite_subject_id,
+          price: price, // price NEAR
+          major_id: major_id,
         });
         dispatch(
           SubjectActions.addSubject({
-            thumbnail: values.thumbnail,
-            title: values.title,
-            description: values.description,
-            number_of_credits: values.number_of_credits,
-            prerequisite_subject_id: values.prerequisite_subject_id,
+            thumbnail: thumbnail,
+            title: title,
+            description: description,
+            number_of_credits: number_of_credits,
+            prerequisite_subject_id: prerequisite_subject_id,
             number_students_studying: 0,
-            price: values.price, // price NEAR
-            major_id: values.major_id,
+            price: price, // price NEAR
+            major_id: major_id,
             instructor_id: null,
           })
         );
@@ -125,9 +134,8 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
                 fullWidth
                 label="Tên môn học"
                 name="title"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.title = e.target.value)}
                 required
-                value={formik.values.title}
                 variant="outlined"
               />
             </Grid>
@@ -135,12 +143,11 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Môn học thuộc ngành</InputLabel>
                 <Select
-                  value={formik.values.major_id}
                   labelId="demo-simple-select-label"
                   label="Môn học thuộc ngành"
                   placeholder="Môn học thuộc ngành"
                   name="major_id"
-                  onChange={formik.handleChange}
+                  onChange={(e) => (formik.initialValues.major_id = e.target.value as any)}
                   fullWidth
                 >
                   {majors.map((major) => (
@@ -156,10 +163,9 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
                 fullWidth
                 label="Mô Tả"
                 name="description"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.description = e.target.value)}
                 required
                 type="text"
-                value={formik.values.description}
                 variant="outlined"
               />
             </Grid>
@@ -168,10 +174,9 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
                 fullWidth
                 label="Số tín chỉ"
                 name="number_of_credits"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.number_of_credits = +e.target.value)}
                 required
                 type="number"
-                value={formik.values.number_of_credits}
                 variant="outlined"
               />
             </Grid>
@@ -179,12 +184,13 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label-1">Môn tiên quyết</InputLabel>
                 <Select
-                  value={formik.values.prerequisite_subject_id}
                   labelId="demo-simple-select-label-1"
                   label="Môn tiên quyết"
                   placeholder="Môn tiên quyết"
                   name="prerequisite_subject_id"
-                  onChange={formik.handleChange}
+                  onChange={(e) =>
+                    (formik.values.prerequisite_subject_id = e.target.value as any)
+                  }
                   fullWidth
                 >
                   {subjects.map((subject) => (
@@ -198,12 +204,11 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Giá near"
+                label="Giá NEAR"
                 name="price"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.price = +e.target.value)}
                 required
                 type="number"
-                value={formik.values.price}
                 variant="outlined"
               />
             </Grid>

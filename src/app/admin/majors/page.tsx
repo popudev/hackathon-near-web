@@ -68,9 +68,9 @@ export default function Major() {
                 </TableHead>
 
                 <TableBody>
-                  {majorList.map((row) => (
+                  {majorList.map((row, index) => (
                     <TableRow
-                      key={row.major_id}
+                      key={index}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}

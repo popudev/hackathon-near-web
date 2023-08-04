@@ -23,19 +23,20 @@ export const MajorForm: React.FC<Props> = ({ open, onClose, setLoadingScreen }) 
     },
     onSubmit: (values) => {
       (async () => {
+        const { thumbail, name, description, number_of_credits_required } = values;
         setLoadingScreen(true);
         const major = await majorService.create({
-          thumbnail: values.thumbail,
-          name: values.name,
-          description: values.description,
-          number_of_credits_required: values.number_of_credits_required,
+          thumbnail: thumbail,
+          name: name,
+          description: description,
+          number_of_credits_required: number_of_credits_required,
         });
         dispatch(
           MajorActions.addMajor({
-            thumbnail: values.thumbail,
-            name: values.name,
-            description: values.description,
-            number_of_credits_required: values.number_of_credits_required,
+            thumbnail: thumbail,
+            name: name,
+            description: description,
+            number_of_credits_required: number_of_credits_required,
           })
         );
         onClose();
@@ -92,9 +93,8 @@ export const MajorForm: React.FC<Props> = ({ open, onClose, setLoadingScreen }) 
                 fullWidth
                 label="Tên ngành"
                 name="name"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.name = e.target.value)}
                 required
-                value={formik.values.name}
                 variant="outlined"
               />
             </Grid>
@@ -103,10 +103,9 @@ export const MajorForm: React.FC<Props> = ({ open, onClose, setLoadingScreen }) 
                 fullWidth
                 label="Mô Tả"
                 name="description"
-                onChange={formik.handleChange}
+                onChange={(e) => (formik.initialValues.description = e.target.value)}
                 required
                 type="text"
-                value={formik.values.description}
                 variant="outlined"
               />
             </Grid>
@@ -115,10 +114,11 @@ export const MajorForm: React.FC<Props> = ({ open, onClose, setLoadingScreen }) 
                 fullWidth
                 label="Tổng số tín chỉ"
                 name="number_of_credits_required"
-                onChange={formik.handleChange}
+                onChange={(e) =>
+                  (formik.initialValues.number_of_credits_required = +e.target.value)
+                }
                 required
                 type="number"
-                value={formik.values.number_of_credits_required}
                 variant="outlined"
               />
             </Grid>

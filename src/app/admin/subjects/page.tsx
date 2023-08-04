@@ -124,9 +124,9 @@ export default function Subject() {
                 </TableHead>
 
                 <TableBody>
-                  {subjectList.map((row) => (
+                  {subjectList.map((row, index) => (
                     <TableRow
-                      key={row.title}
+                      key={row.title + index}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {/* <TableCell align="center">{row.thumbnail}</TableCell> */}
