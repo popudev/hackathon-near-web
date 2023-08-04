@@ -1,7 +1,19 @@
 "use client";
+import { MajorSelectors } from "@/redux/features/major/majorSelectors";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
+import { useAppSelector } from "@/redux/hooks";
 import { Box, Typography } from "@mui/material";
+import React from "react";
 
-export const DegreeTemplate = () => {
+type Props = {
+  degree: any;
+};
+
+export const DegreeTemplate: React.FC<Props> = ({ degree }) => {
+  const user = useAppSelector(UserSelectors.getUser());
+  const majors = useAppSelector(MajorSelectors.getMajors());
+  const major = majors.find((m) => m.major_id === user?.major_id);
+
   return (
     <Box
       sx={{
@@ -45,10 +57,10 @@ export const DegreeTemplate = () => {
             This is to certify that
           </Typography>
           <Box component={"h1"} sx={{ color: "#90caf9" }}>
-            Lương Chi Thịnh
+            {user?.full_name}
           </Box>
-          <Typography>has successfully completed the course</Typography>
-          <Typography sx={{ color: "#F7D000" }}>Cấu trúc dữ liệu và giải thuật</Typography>
+          <Typography>has successfully completed major</Typography>
+          <Typography sx={{ color: "#F7D000" }}>{major?.name}</Typography>
           <Box
             sx={{
               marginTop: "15px",
@@ -67,8 +79,8 @@ export const DegreeTemplate = () => {
                 width: "200px",
               }}
             >
-              <Typography> TP.HCM, 12 October 2023</Typography>
-              <Typography> DATE</Typography>
+              <Typography>TP.HCM, 04 August 2023</Typography>
+              <Typography>DATE</Typography>
             </Box>
             <Box
               sx={{
@@ -104,7 +116,7 @@ export const DegreeTemplate = () => {
             >
               <Typography>Chief executive officer</Typography>
               <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
-                CHAU PHU THINH
+                SUPER SCHOOL
               </Typography>
             </Box>
           </Box>
