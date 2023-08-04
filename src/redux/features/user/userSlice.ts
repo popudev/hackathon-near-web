@@ -22,7 +22,8 @@ export const user = createSlice({
   reducers: {
     setUser(state, action) {
       const { payload, type } = action;
-      state.payload = { ...payload };
+      if (payload == null) state.payload = null;
+      else state.payload = { ...payload };
     },
   },
   extraReducers: (build) => {
