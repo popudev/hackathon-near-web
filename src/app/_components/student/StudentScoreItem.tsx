@@ -1,4 +1,7 @@
 "use client";
+import { SubjectSelectors } from "@/redux/features/subject/subjectSelectors";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
+import { useAppSelector } from "@/redux/hooks";
 import { Score } from "@/services/major/types";
 import { TableCell, TableRow } from "@mui/material";
 
@@ -7,14 +10,20 @@ interface Props {
 }
 
 export const StudentScoreItem: React.FC<Props> = ({ data }) => {
+  const subjects = useAppSelector(SubjectSelectors.getSubjects());
+  const instructors = useAppSelector(UserSelectors.getInstructors());
+
+  const subject = subjects.find((s) => s.subject_id === data.subject_id);
+  const instructor = instructors.find((s) => s.user_id === data.instuctor_id);
+
   return (
     <TableRow>
-      <TableCell align="center">{"Cấu trúc dữ liệu và giải thuật"}</TableCell>
+      <TableCell align="center">{subject?.title}</TableCell>
       <TableCell align="center" sx={{}}>
-        {"Phan Tấn Quốc"}
+        {instructor?.full_name}
       </TableCell>
       <TableCell align="center">{data.score}</TableCell>
-      <TableCell align="center">{"Đạt"}</TableCell>
+      <TableCell align="center">{data.score >= 5 ? "Đạt" : "Chưa đạt"}</TableCell>
     </TableRow>
   );
 };
