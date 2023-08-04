@@ -11,18 +11,20 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
 import { signIn } from "@/app/actions/auth";
 import { UserThunks } from "@/redux/features/user/userThunk";
 import { userService } from "@/services/user";
+import { UserSelectors } from "@/redux/features/user/userSelectors";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const user = useAppSelector(UserSelectors.getUser());
   const mutationLogin = useMutation({
     mutationFn: (data: { username: string; password: string }) => {
       const { username, password } = data;
@@ -38,7 +40,9 @@ export default function Login() {
     },
     onSubmit: (values) => {},
   });
-
+  useEffect(() => {
+    // console.log(user);
+  }, [user]);
   useEffect(() => {
     if (mutationLogin.error) {
       console.log(mutationLogin.error);
