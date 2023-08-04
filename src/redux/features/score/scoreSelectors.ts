@@ -5,8 +5,8 @@ interface PartialScoreState {
   score: ScoresState;
 }
 
-const subjectStateSelector = (state: PartialScoreState) => state.score;
+const scoreSelectors = (state: PartialScoreState) => state.score;
 
 export const ScoreSelectors = {
-  getScores: () => createSelector(subjectStateSelector, ({ scores }) => scores),
+  getScores: () => createSelector(scoreSelectors, ({ scores }) => scores),
 };

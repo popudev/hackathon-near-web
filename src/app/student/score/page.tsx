@@ -18,6 +18,7 @@ import { UserSelectors } from "@/redux/features/user/userSelectors";
 
 export default function ScoreList() {
   const scores = useAppSelector(ScoreSelectors.getScores());
+  console.log("scores: ", scores);
   const user = useAppSelector(UserSelectors.getUser());
 
   const dispatch = useAppDispatch();

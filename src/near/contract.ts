@@ -40,4 +40,13 @@ export class Contract {
       deposit: utils.format.parseNearAmount(price.toString()),
     });
   }
+
+  async receiveDegree() {
+    return await this.wallet.callMethod({
+      contractId: this.contractId,
+      method: "register_subject",
+      args: {},
+      deposit: utils.format.parseNearAmount("10"), // Deposit 10 NEAR
+    });
+  }
 }
