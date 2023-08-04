@@ -1,17 +1,20 @@
 "use client";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { UserSelectors } from "@/redux/features/user/userSelectors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { Roles } from "types";
+import { useRouter } from "next/navigation";
+import { UserActions } from "@/redux/features/user/userSlice";
 
 export const Header = () => {
   const user = useAppSelector(UserSelectors.getUser());
   const { isSignedIn, wallet } = useAppSelector((state) => state.web3);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const dispatch = useAppDispatch();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,12 +26,20 @@ export const Header = () => {
   };
 
   const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
+  const router = useRouter();
   const open2 = Boolean(anchorEl2);
   const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(UserActions.setUser(null));
+
+    setAnchorEl(null);
+    router.push("/logout");
   };
 
   return (
@@ -88,7 +99,7 @@ export const Header = () => {
                     <MenuItem onClick={handleClose}>Hồ sơ</MenuItem>
                     <MenuItem
                       onClick={() => {
-                        handleClose();
+                        handleLogout();
                       }}
                     >
                       Đăng xuất
