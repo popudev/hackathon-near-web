@@ -8,12 +8,21 @@ import { Roles } from "types";
 const config = {
   requiredToken: ["/admin", "/instructor", "/student"],
   requiredRole: {
-    [Roles[Roles.Admin]]: { paths: ["/admin", "/", "/register"], redirect: "/admin/majors" },
+    [Roles[Roles.Admin]]: {
+      paths: ["/admin", "/", "/register"],
+      redirect: "/admin/majors",
+      main: "/admin/majors",
+    },
     [Roles[Roles.Instructor]]: {
       paths: ["/instructor", "register", "/"],
-      redirect: "/instructor",
+      redirect: "/instructor/subjects",
+      main: "/instructor/subjects",
     },
-    [Roles[Roles.Student]]: { paths: ["/student", "register", "/"], redirect: "/student" },
+    [Roles[Roles.Student]]: {
+      paths: ["/student", "register", "/"],
+      redirect: "/student/subjects",
+      main: "/student/subjects",
+    },
   },
 };
 // This function can be marked `async` if using `await` inside
@@ -21,7 +30,11 @@ export async function middleware(request: NextRequest) {
   const { requiredToken, requiredRole } = config;
 
   const cookie = request.cookies.get("accessToken");
-  if (request.nextUrl.pathname.startsWith("/_next")) return NextResponse.next();
+  if (
+    request.nextUrl.pathname.startsWith("/_next") ||
+    request.nextUrl.pathname.startsWith("/static")
+  )
+    return NextResponse.next();
   if (request.nextUrl.pathname.startsWith("/logout")) {
     const response = NextResponse.redirect(new URL("/login", request.url));
     response.cookies.delete("accessToken");
@@ -48,7 +61,15 @@ export async function middleware(request: NextRequest) {
       //console.log(paths, request.nextUrl.pathname);
       if (info.paths) {
         // for (const path of info.paths) {
-        const isCorrect = (path: string) => request.nextUrl.pathname.startsWith(path);
+        const isCorrect = (path: string) => {
+          if (path == "/") {
+            console.log(request.nextUrl.pathname, path);
+
+            return request.nextUrl.pathname === "/";
+          } else {
+            return request.nextUrl.pathname.startsWith(path);
+          }
+        };
         if (info.paths.some(isCorrect)) {
           return NextResponse.next();
         } else {

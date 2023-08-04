@@ -25,7 +25,7 @@ import { ModalSelectors } from "@/redux/features/modal/modalSelectors";
 export default function Page({ params }: { params: { subject_id: string } }) {
   const instructors = useAppSelector(UserSelectors.getInstructors());
   const { contract, isSignedIn, wallet } = useAppSelector((state) => state.web3);
-  const subject = useAppSelector(SubjectSelectors.getSubjectById(params.subject_id));
+  // const subject = useAppSelector(SubjectSelectors.getSubjectById(params.subject_id));
   const ref = useRef<HTMLInputElement>();
   const [studentInSubject, setStudentInSubject] = useState<[UserMetadata]>();
   const dispatch = useAppDispatch();
@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { subject_id: string } }) {
     //   await contract.createScore(params.subject_id, user_id, +(ref?.current?.value || 0));
     await userService.createScore(params.subject_id, user_id, +(ref?.current?.value || 0));
   };
-  if (!subject) return <></>;
+  // if (!subject) return <></>;
   if ((studentInSubject?.length || 0) == 0)
     return (
       <Box
@@ -86,17 +86,6 @@ export default function Page({ params }: { params: { subject_id: string } }) {
               color="success"
             />
             <div>{modal?.data?.full_name}</div>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-
-              gap: 1,
-            }}
-          >
-            <Chip label="Môn:" clickable sx={{ width: 120, minWidth: 120 }} color="primary" />
-            <div>{subject.title}</div>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Chip
@@ -140,12 +129,12 @@ export default function Page({ params }: { params: { subject_id: string } }) {
             color="info"
             onClick={() => {
               handleConfirmScore(modal?.data?.user_id);
-              // dispatch(
-              //   ModalAction.updateModal({
-              //     isOpen: false,
-              //     data: {},
-              //   })
-              // );
+              dispatch(
+                ModalAction.updateModal({
+                  isOpen: false,
+                  data: {},
+                })
+              );
             }}
           >
             Xác nhận
@@ -153,7 +142,7 @@ export default function Page({ params }: { params: { subject_id: string } }) {
         </Box>
       </Modal>
       <Container maxWidth={false}>
-        <Typography sx={{ fontSize: 30 }}>Môn học: {subject.title}</Typography>
+        {/* <Typography sx={{ fontSize: 30 }}>Môn học: {subject.title}</Typography> */}
 
         <Box>
           <Card sx={{ mt: 3, boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}>

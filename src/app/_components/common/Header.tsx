@@ -59,7 +59,13 @@ export const Header = () => {
               padding: "0 25px",
             }}
           >
-            <Typography variant="h6" component="div">
+            <Typography
+              variant="h6"
+              component="div"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
               SuperSchool
             </Typography>
 
@@ -83,7 +89,7 @@ export const Header = () => {
                     onClick={handleClick}
                     sx={{ mr: 5 }}
                   >
-                    {(user.full_name as string) || "ADMIN"}
+                    {(user.full_name as string) || ""}
                   </Button>
                   <Menu
                     id="basic-menu"
