@@ -44,9 +44,17 @@ export class Contract {
   async receiveDegree() {
     return await this.wallet.callMethod({
       contractId: this.contractId,
-      method: "register_subject",
+      method: "receive_degree",
       args: {},
       deposit: utils.format.parseNearAmount("10"), // Deposit 10 NEAR
+    });
+  }
+
+  async getDegree() {
+    return await this.wallet.viewMethod({
+      contractId: this.contractId,
+      method: "get_degree_metadata",
+      args: {},
     });
   }
 }
