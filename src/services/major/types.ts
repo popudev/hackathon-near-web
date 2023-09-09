@@ -4,7 +4,7 @@ export type Major = {
   name: string;
   description: string;
   number_of_credits_required: number;
-  number_students?: number;
+  number_students_register?: number;
   created_at?: number;
   updated_at?: number;
 };

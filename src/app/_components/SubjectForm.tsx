@@ -67,6 +67,7 @@ export const SubjectForm: React.FC<Props> = ({ open, onClose, majors, setLoading
           price: price, // price NEAR
           major_id: major_id,
         });
+        console.log("prerequisite_subject_id: ", prerequisite_subject_id);
         dispatch(
           SubjectActions.addSubject({
             thumbnail: thumbnail,

@@ -38,14 +38,14 @@ export default function Page() {
     await contract?.receiveDegree();
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!isSignedIn) return wallet?.signIn();
-  //     const result = await contract?.getDegree();
-  //     console.log("result: ", result);
-  //     setDegree(result);
-  //   })();
-  // }, [contract, isSignedIn]);
+  useEffect(() => {
+    (async () => {
+      if (!isSignedIn) return wallet?.signIn();
+      const result = await contract?.getDegree();
+      console.log("result: ", result);
+      setDegree(result);
+    })();
+  }, [contract, isSignedIn]);
 
   if (!user) return <></>;
 

@@ -84,7 +84,7 @@ export default function Major() {
                         {row.description}
                       </TableCell>
                       <TableCell align="center">{row.number_of_credits_required}</TableCell>
-                      <TableCell align="center">{row.number_students || 0}</TableCell>
+                      <TableCell align="center">{row.number_students_register || 0}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -65,6 +65,7 @@ export default function Subject() {
         hideAssign();
         setOpenDialog(true);
         setTitle("Bạn đã phân công giảng dạy cho giảng viên thành công");
+        dispatch(SubjectThunks.getSubjects());
       });
     },
     [subject]
@@ -140,14 +141,19 @@ export default function Subject() {
                         {row.description}
                       </TableCell>
                       <TableCell align="center">
-                        {row.prerequisite_subject_id || "Không có"}
+                        {subjectList.find(
+                          (subject) =>
+                            subject.subject_id &&
+                            subject.subject_id === row.prerequisite_subject_id
+                        )?.title || "Không có"}
                       </TableCell>
                       <TableCell align="center">{row.number_of_credits || 0}</TableCell>
                       <TableCell align="center">{row.price || 0}</TableCell>
                       <TableCell align="center">{row.number_students_studying || 0}</TableCell>
                       <TableCell align="center">
                         {row.instructor_id !== null ? (
-                          row.instructor_id
+                          instructors.find((instruc) => instruc.user_id === row.instructor_id)
+                            ?.full_name
                         ) : (
                           <Button
                             onClick={() => {
